@@ -6,8 +6,20 @@ using UnityEngine;
 /// </summary>
 public class Player : CharacterBase
 {
+    // 씬 전환 후에도 플레이어 인스턴스를 유지하기 위한 싱글턴 참조
+    public static Player Instance { get; private set; }
+
     protected override void Awake()
     {
+        // 이미 다른 씬에서 넘어온 플레이어가 존재하면 이 오브젝트(씬 기본 배치)를 제거
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         base.Awake();
     }
 

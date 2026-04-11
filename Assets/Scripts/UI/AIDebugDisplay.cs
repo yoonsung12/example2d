@@ -16,8 +16,14 @@ public class AIDebugDisplay : MonoBehaviour
 
     private void Start()
     {
-        // 씬의 첫 번째 적 자동 탐색
         _target = FindFirstObjectByType<NFBTEnemyAI>();
+    }
+
+    private void Update()
+    {
+        // 타겟이 없거나 죽었으면 살아있는 적 재탐색
+        if (_target == null || _target.Enemy == null || _target.Enemy.IsDead)
+            _target = FindFirstObjectByType<NFBTEnemyAI>();
     }
 
     private void InitStyles()
@@ -47,8 +53,13 @@ public class AIDebugDisplay : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!_show || _target == null) return;
+        if (!_show) return;
         InitStyles();
+
+        // 행동 트래커 패널 (항상 표시)
+        DrawTrackerPanel();
+
+        if (_target == null) return;
 
         float x = 10f, y = Screen.height - 260f;
         float w = 310f, h = 250f;
@@ -92,6 +103,66 @@ public class AIDebugDisplay : MonoBehaviour
         GUI.Label(new Rect(lx, ly, w, lh),
             $"Active: <color=#ffff66>{_target.DbgBranch}</color>", _labelStyle);
     }
+
+    private void DrawTrackerPanel()
+    {
+        var tr = PlayerBehaviorTracker.Instance;
+
+        float x = 10f, y = 10f;
+        float w = 300f, h = 148f;
+
+        GUI.Box(new Rect(x, y, w, h), GUIContent.none, _boxStyle);
+
+        float lx = x + 12f;
+        float ly = y + 10f;
+        float lh = 20f;
+
+        GUI.Label(new Rect(lx, ly, w, lh), "■ Player Behavior Tracker", _headerStyle); ly += 24f;
+
+        if (tr == null)
+        {
+            GUI.Label(new Rect(lx, ly, w, lh), "<color=#ff8888>PlayerBehaviorTracker 없음</color>", _labelStyle);
+            return;
+        }
+
+        // 방 통계 요약
+        GUI.Label(new Rect(lx, ly, w, lh),
+            $"방문 <color=#ffdd88>{tr.TotalRoomsVisited}</color>  " +
+            $"교전 <color=#ff8888>{tr.EngagedRoomCount}</color>  " +
+            $"전멸 <color=#aaffaa>{tr.ClearedRoomCount}</color>  " +
+            $"통과 <color=#88aaff>{tr.EncounterRoomCount - tr.EngagedRoomCount}</color>",
+            _labelStyle); ly += 22f;
+
+        DrawLine(lx, ly, w - 24f); ly += 8f;
+
+        // 4개 RBFN 입력 텐서
+        DrawTensorRow(lx, ref ly, lh, "CombatRate ",
+            tr.CombatEngagementRate, new Color(1f, 0.4f, 0.4f), "교전비율");
+        DrawTensorRow(lx, ref ly, lh, "ClearRate  ",
+            tr.EnemyClearRate,       new Color(0.4f, 1f, 0.5f), "전멸비율");
+        DrawTensorRow(lx, ref ly, lh, "SkipRate   ",
+            tr.SkipRate,             new Color(0.4f, 0.7f, 1f), "통과비율");
+        DrawTensorRow(lx, ref ly, lh, "HPRetreat  ",
+            tr.HPThresholdRetreat,   new Color(1f, 0.8f, 0.2f), "저HP후퇴");
+    }
+
+    private void DrawTensorRow(float x, ref float y, float lh,
+        string label, float value, Color barColor, string desc)
+    {
+        GUI.Label(new Rect(x, y, 290f, lh),
+            $"{label} <b><color=#{ColorToHex(barColor)}>{value:F3}</color></b>  <color=#888888>{desc}</color>",
+            _labelStyle);
+        y += 18f;
+        DrawBar(x, y, 200f, 6f, value, barColor);
+        y += 11f;
+    }
+
+    private static string ColorToHex(Color c)
+    {
+        return $"{ToByte(c.r):X2}{ToByte(c.g):X2}{ToByte(c.b):X2}";
+    }
+
+    private static int ToByte(float v) => Mathf.Clamp(Mathf.RoundToInt(v * 255f), 0, 255);
 
     private void DrawBranchRow(float x, ref float y, float lh, string label,
         float sBase, float sFuzzy, float uFinal, bool active, Color barColor)

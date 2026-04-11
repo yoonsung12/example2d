@@ -16,6 +16,7 @@ public class SaveManager : MonoBehaviour
         public float playerX;
         public float playerY;
         public float currentHealth;
+        public string currentSceneName;
         public List<string> unlockedAbilities = new();
         public List<string> visitedRooms = new();
     }
@@ -58,6 +59,11 @@ public class SaveManager : MonoBehaviour
     {
         if (!CurrentSave.visitedRooms.Contains(roomId))
             CurrentSave.visitedRooms.Add(roomId);
+    }
+
+    public void SetCurrentScene(string sceneName)
+    {
+        CurrentSave.currentSceneName = sceneName;
     }
 
     public void DeleteSave()

@@ -36,6 +36,9 @@ public class NFBTEnemyAI : MonoBehaviour
     // ── PlayStyle_Score ───────────────────────────────────────────────────────
     private float _playStyleScore = 0.5f;
 
+    // 교전 기록 중복 방지 플래그
+    private bool _engagementRecorded;
+
     // ── 디버그 프로퍼티 (AIDebugDisplay에서 참조) ─────────────────────────────
     public float  DbgPlayStyle  { get; private set; } = 0.5f;
     public float  DbgSBaseA     { get; private set; }
@@ -120,6 +123,15 @@ public class NFBTEnemyAI : MonoBehaviour
         DbgUFinalC   = 0.7f * sBaseAmbush + 0.3f * sFuzzyC;
         DbgBranch    = _utilitySelector.ActiveBranchName;
         DbgDist      = dist;
+
+        // 교전 기록 (Chase/Attack 분기 최초 선택 시 1회)
+        if (!_engagementRecorded && _utilitySelector.ActiveBranchName == "Chase/Attack")
+        {
+            _engagementRecorded = true;
+            var room = Enemy.HomeRoom;
+            if (room?.CurrentRecord != null)
+                PlayerBehaviorTracker.Instance?.RecordRoomEngagement(room.CurrentRecord);
+        }
 
         // Layer3: BT 실행
         _utilitySelector.Evaluate();

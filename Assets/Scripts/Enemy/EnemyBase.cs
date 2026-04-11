@@ -6,6 +6,11 @@ public class EnemyBase : CharacterBase
 
     public event System.Action<EnemyBase> OnEnemyDied;
 
+    /// <summary>이 적이 속한 룸. Room.DiscoverEnemies()에서 자동 할당됩니다.</summary>
+    public Room HomeRoom { get; private set; }
+
+    public void SetHomeRoom(Room room) => HomeRoom = room;
+
     protected override void Awake()
     {
         base.Awake();

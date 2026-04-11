@@ -3,7 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static GameManager Instance    { get; private set; }
+    /// <summary>씬 전환 시 SceneTransition → SpawnPoint 로 전달되는 스폰 ID.</summary>
+    public static string      PendingSpawnId { get; set; }
 
     public enum GameState { Playing, Paused, GameOver }
     public GameState CurrentState { get; private set; } = GameState.Playing;
@@ -16,6 +18,12 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnEnable()  => UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene _, UnityEngine.SceneManagement.LoadSceneMode __)
+        => FindPlayer();
 
     private void Start() => FindPlayer();
 
