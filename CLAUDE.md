@@ -35,6 +35,7 @@ This is a Unity 2D game project using:
 -OOP 기반 설계
 -계획부터 말하고 승인 받은 후에 작업 진행
 -최적화를 고려한 코드 작성
+-SOLID 원칙과 디자인 패턴 적용
 
 ## Project Structure
 
