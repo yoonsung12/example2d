@@ -10,6 +10,9 @@ public enum AbilityType
 
 public class PlayerAbilities : MonoBehaviour
 {
+    [Header("Debug / Test")]
+    [SerializeField] private bool _unlockAllOnStart = false;
+
     private PlatformerMovement     _movement;
     private HashSet<AbilityType>   _unlocked = new();
 
@@ -20,6 +23,14 @@ public class PlayerAbilities : MonoBehaviour
 
     private void Start()
     {
+        // 디버그: 전체 어빌리티 즉시 언락
+        if (_unlockAllOnStart)
+        {
+            foreach (AbilityType ability in System.Enum.GetValues(typeof(AbilityType)))
+                Apply(ability);
+            return;
+        }
+
         // 저장된 능력 복원
         if (SaveManager.Instance == null) return;
         foreach (AbilityType ability in System.Enum.GetValues(typeof(AbilityType)))

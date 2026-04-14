@@ -59,6 +59,9 @@ public class AIDebugDisplay : MonoBehaviour
         // 행동 트래커 패널 (항상 표시)
         DrawTrackerPanel();
 
+        // FCM 클러스터 패널 (우상단)
+        DrawFCMPanel();
+
         if (_target == null) return;
 
         float x = 10f, y = Screen.height - 260f;
@@ -102,6 +105,47 @@ public class AIDebugDisplay : MonoBehaviour
         DrawLine(lx, ly, w - 24f); ly += 10f;
         GUI.Label(new Rect(lx, ly, w, lh),
             $"Active: <color=#ffff66>{_target.DbgBranch}</color>", _labelStyle);
+    }
+
+    private void DrawFCMPanel()
+    {
+        if (_target == null) return;
+
+        float w  = 280f, h = 110f;
+        float px = Screen.width - w - 10f;
+        float py = 10f;
+
+        GUI.Box(new Rect(px, py, w, h), GUIContent.none, _boxStyle);
+
+        float lx = px + 12f;
+        float ly = py + 10f;
+        float lh = 18f;
+
+        GUI.Label(new Rect(lx, ly, w, lh), "■ FCM 클러스터 임계값", _headerStyle); ly += 22f;
+
+        // HP 임계값
+        GUI.Label(new Rect(lx, ly, w, lh),
+            $"HP   Low <color=#ff8888>{_target.DbgHPLow:F1}</color>  " +
+            $"Med <color=#ffdd88>{_target.DbgHPMedium:F1}</color>  " +
+            $"High <color=#88ff88>{_target.DbgHPHigh:F1}</color>",
+            _labelStyle); ly += lh;
+
+        // 거리 임계값
+        GUI.Label(new Rect(lx, ly, w, lh),
+            $"Dist Near <color=#88ccff>{_target.DbgDistNear:F2}</color>  " +
+            $"Far <color=#aaaaff>{_target.DbgDistFar:F2}</color>",
+            _labelStyle); ly += lh;
+
+        DrawLine(lx, ly, w - 24f); ly += 8f;
+
+        // 마지막 갱신 시각
+        float lastUpdate = _target.DbgFCMLastTime;
+        string updateStr = lastUpdate <= 0f
+            ? "갱신 대기 중"
+            : $"{lastUpdate:F1}s (다음 갱신 약 {Mathf.Max(0f, lastUpdate + 30f - Time.time):F0}초 후)";
+        GUI.Label(new Rect(lx, ly, w, lh),
+            $"마지막 갱신: <color=#aaaaaa>{updateStr}</color>",
+            _labelStyle);
     }
 
     private void DrawTrackerPanel()

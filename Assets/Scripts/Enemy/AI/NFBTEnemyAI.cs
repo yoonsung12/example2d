@@ -1,12 +1,14 @@
 using System.Collections.Generic;
+using Unity.Behavior;
 using UnityEngine;
 
 /// <summary>
 /// NFBT (Neuro-Fuzzy Behavior Tree) 적 AI 컨트롤러.
-/// Layer1(RBFN) → Layer2(Fuzzy) → Layer3(BT) 순으로 매 프레임 실행됩니다.
-/// 기존 EnemyAI.cs 를 대체합니다.
+/// Layer1(RBFN) → Layer2(Fuzzy) 로 ActiveBranch를 결정하고,
+/// Layer3 실행은 BehaviorGraphAgent에 위임합니다.
 /// </summary>
 [RequireComponent(typeof(EnemyBase))]
+[RequireComponent(typeof(BehaviorGraphAgent))]
 public class NFBTEnemyAI : MonoBehaviour
 {
     [Header("Detection")]
@@ -22,11 +24,13 @@ public class NFBTEnemyAI : MonoBehaviour
     public float     AttackRange     => _attackRange;
     public float     DetectionRange  => _detectionRange;
 
+    /// <summary>현재 선택된 BT 분기명. BT 노드에서 참조합니다.</summary>
+    public string ActiveBranch { get; private set; } = "None";
+
     // ── NFBT 계층 ────────────────────────────────────────────────────────────
-    private RBFNetwork           _rbfn;
-    private FCMClusterer         _fcm;
-    private FuzzyRuleEngine      _fuzzy;
-    private UtilityFuzzySelector _utilitySelector;
+    private RBFNetwork      _rbfn;
+    private FCMClusterer    _fcm;
+    private FuzzyRuleEngine _fuzzy;
 
     // ── FCM 샘플 수집 ────────────────────────────────────────────────────────
     private readonly List<float> _hpSamples   = new();
@@ -39,7 +43,7 @@ public class NFBTEnemyAI : MonoBehaviour
     // 교전 기록 중복 방지 플래그
     private bool _engagementRecorded;
 
-    // ── 디버그 프로퍼티 (AIDebugDisplay에서 참조) ─────────────────────────────
+    // ── 디버그 프로퍼티 (AIDebugDisplay / AIScatterPlotUI에서 참조) ───────────
     public float  DbgPlayStyle  { get; private set; } = 0.5f;
     public float  DbgSBaseA     { get; private set; }
     public float  DbgSBaseB     { get; private set; }
@@ -52,6 +56,14 @@ public class NFBTEnemyAI : MonoBehaviour
     public float  DbgUFinalC    { get; private set; }
     public string DbgBranch     { get; private set; } = "None";
     public float  DbgDist       { get; private set; }
+
+    // FCM 임계값 (산점도 기준선 / FCM 패널용)
+    public float DbgHPLow       => _fcm.HPLow;
+    public float DbgHPMedium    => _fcm.HPMedium;
+    public float DbgHPHigh      => _fcm.HPHigh;
+    public float DbgDistNear    => _fcm.DistNear;
+    public float DbgDistFar     => _fcm.DistFar;
+    public float DbgFCMLastTime { get; private set; }
 
     // ── Unity 생명주기 ───────────────────────────────────────────────────────
 
@@ -73,8 +85,7 @@ public class NFBTEnemyAI : MonoBehaviour
         if (PlayerBehaviorTracker.Instance != null)
             _playStyleScore = _rbfn.Compute(PlayerBehaviorTracker.Instance.GetInputVector());
 
-        _utilitySelector = BuildBehaviorTree();
-        _fcmTimer        = _fcmUpdateInterval;
+        _fcmTimer = _fcmUpdateInterval;
     }
 
     private void Update()
@@ -88,6 +99,7 @@ public class NFBTEnemyAI : MonoBehaviour
         if (dist > _detectionRange)
         {
             Enemy.Movement?.Move(0f);
+            ActiveBranch = "None";
             return;
         }
 
@@ -108,33 +120,47 @@ public class NFBTEnemyAI : MonoBehaviour
         float sFuzzyB = fr.UtilityEvade;
         float sFuzzyC = fr.UtilityChase;
 
-        _utilitySelector.UpdateUtilities(
-            sBaseValues:  new[] { sBaseChase, sBaseEvade, sBaseAmbush },
-            sFuzzyValues: new[] { sFuzzyA,    sFuzzyB,    sFuzzyC    }
-        );
+        // U_final 계산 및 분기 선택 (Layer3 진입점)
+        float uA = 0.7f * sBaseChase  + 0.3f * sFuzzyA;
+        float uB = 0.7f * sBaseEvade  + 0.3f * sFuzzyB;
+        float uC = 0.7f * sBaseAmbush + 0.3f * sFuzzyC;
+
+        if      (uA >= uB && uA >= uC) ActiveBranch = "Chase/Attack";
+        else if (uB >= uA && uB >= uC) ActiveBranch = "Evade/Recover";
+        else                           ActiveBranch = "Ambush";
 
         // 디버그 값 갱신
         DbgPlayStyle = _playStyleScore;
         DbgSBaseA    = sBaseChase;  DbgSFuzzyA = sFuzzyA;
         DbgSBaseB    = sBaseEvade;  DbgSFuzzyB = sFuzzyB;
         DbgSBaseC    = sBaseAmbush; DbgSFuzzyC = sFuzzyC;
-        DbgUFinalA   = 0.7f * sBaseChase  + 0.3f * sFuzzyA;
-        DbgUFinalB   = 0.7f * sBaseEvade  + 0.3f * sFuzzyB;
-        DbgUFinalC   = 0.7f * sBaseAmbush + 0.3f * sFuzzyC;
-        DbgBranch    = _utilitySelector.ActiveBranchName;
+        DbgUFinalA   = uA;
+        DbgUFinalB   = uB;
+        DbgUFinalC   = uC;
+        DbgBranch    = ActiveBranch;
         DbgDist      = dist;
 
+        // 세션 로그
+        SessionLogger.Instance?.TryLog(
+            Time.deltaTime,
+            dist,
+            playerHP,
+            ActiveBranch,
+            _playStyleScore,
+            _fcm.HPLow,
+            _fcm.HPHigh,
+            _fcm.DistNear,
+            _fcm.DistFar);
+
         // 교전 기록 (Chase/Attack 분기 최초 선택 시 1회)
-        if (!_engagementRecorded && _utilitySelector.ActiveBranchName == "Chase/Attack")
+        if (!_engagementRecorded && ActiveBranch == "Chase/Attack")
         {
             _engagementRecorded = true;
             var room = Enemy.HomeRoom;
             if (room?.CurrentRecord != null)
                 PlayerBehaviorTracker.Instance?.RecordRoomEngagement(room.CurrentRecord);
         }
-
-        // Layer3: BT 실행
-        _utilitySelector.Evaluate();
+        // Layer3 실행은 BehaviorGraphAgent가 자체 업데이트에서 처리합니다.
     }
 
     private void FixedUpdate()
@@ -145,45 +171,28 @@ public class NFBTEnemyAI : MonoBehaviour
         _fcmTimer -= Time.fixedDeltaTime;
         if (_fcmTimer <= 0f)
         {
+            // 갱신 전 값 스냅샷
+            float prevHPLow    = _fcm.HPLow;
+            float prevHPMed    = _fcm.HPMedium;
+            float prevHPHigh   = _fcm.HPHigh;
+            float prevDistNear = _fcm.DistNear;
+            float prevDistFar  = _fcm.DistFar;
+
             _fcm.UpdateHPClusters(_hpSamples);
             _fcm.UpdateDistanceClusters(_distSamples);
             _hpSamples.Clear();
             _distSamples.Clear();
-            _fcmTimer = _fcmUpdateInterval;
+            _fcmTimer    = _fcmUpdateInterval;
+            DbgFCMLastTime = Time.time;
+
+            Debug.Log(
+                $"[FCM 갱신] t={Time.time:F1}s\n" +
+                $"  HP    Low  {prevHPLow:F1} → {_fcm.HPLow:F1}\n" +
+                $"  HP    Med  {prevHPMed:F1} → {_fcm.HPMedium:F1}\n" +
+                $"  HP    High {prevHPHigh:F1} → {_fcm.HPHigh:F1}\n" +
+                $"  Dist  Near {prevDistNear:F2} → {_fcm.DistNear:F2}\n" +
+                $"  Dist  Far  {prevDistFar:F2} → {_fcm.DistFar:F2}");
         }
-    }
-
-    // ── BT 구성 ─────────────────────────────────────────────────────────────
-
-    private UtilityFuzzySelector BuildBehaviorTree()
-    {
-        // Branch A: 추격 → 전투
-        var branchA = new BTSequence(this, new List<BTNode>
-        {
-            new MoveToPlayerAction(this),
-            new AttackPlayerAction(this),
-        });
-
-        // Branch B: 회피 → 관찰
-        var branchB = new BTSequence(this, new List<BTNode>
-        {
-            new MoveToSafeAction(this),
-            new ObservePlayerAction(this, 2f),
-        });
-
-        // Branch C: 매복 이동 → 공격
-        var branchC = new BTSequence(this, new List<BTNode>
-        {
-            new MoveToAmbushAction(this),
-            new AttackPlayerAction(this, extraCooldown: 0.5f),
-        });
-
-        return new UtilityFuzzySelector(this, new List<UtilityFuzzySelector.Branch>
-        {
-            new() { Name = "Chase/Attack", Node = branchA, SBase = 0.5f, SFuzzy = 0.5f },
-            new() { Name = "Evade/Recover", Node = branchB, SBase = 0.3f, SFuzzy = 0.3f },
-            new() { Name = "Ambush",        Node = branchC, SBase = 0.4f, SFuzzy = 0.4f },
-        });
     }
 
     // ── 헬퍼 ─────────────────────────────────────────────────────────────────

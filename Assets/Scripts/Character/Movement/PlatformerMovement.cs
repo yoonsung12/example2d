@@ -21,9 +21,10 @@ public class PlatformerMovement : MonoBehaviour
     [SerializeField] private float _dashCooldown = 0.5f;
 
     [Header("Wall")]
-    [SerializeField] private float _wallSlideSpeed  = 2f;
-    [SerializeField] private float _wallJumpForceX  = 10f;
-    [SerializeField] private float _wallJumpForceY  = 14f;
+    [SerializeField] private float _wallSlideSpeed    = 2f;
+    [SerializeField] private float _wallJumpForceX    = 10f;
+    [SerializeField] private float _wallJumpForceY    = 14f;
+    [SerializeField] private float _wallJumpLockout   = 0.25f;  // 재부착 방지 시간
 
     [Header("Detection")]
     [SerializeField] private Transform  _groundCheck;
@@ -55,6 +56,13 @@ public class PlatformerMovement : MonoBehaviour
     private int   _extraJumpsLeft;
     private bool  _wallLeft;
     private bool  _wallRight;
+
+    // 낙하 여부와 무관하게 공중에서 벽에 닿았는지 여부
+    private bool  _isTouchingWall;
+    // 월점프 후 재부착 방지 타이머
+    private float _wallJumpLockoutTimer;
+    // 월점프 직후 밀어낼 방향 (+1 오른쪽, -1 왼쪽)
+    private float _wallJumpPushDir;
 
     private void Awake()
     {
@@ -93,8 +101,9 @@ public class PlatformerMovement : MonoBehaviour
 
         if (IsGrounded)
         {
-            _coyoteCounter    = _coyoteTime;
-            _extraJumpsLeft   = CanDoubleJump ? 1 : 0;
+            _coyoteCounter  = _coyoteTime;
+            _extraJumpsLeft = CanDoubleJump ? 1 : 0;
+            _wallJumpLockoutTimer = 0f;
         }
     }
 
@@ -104,23 +113,29 @@ public class PlatformerMovement : MonoBehaviour
                      Physics2D.Raycast(_wallCheckLeft.position,  Vector2.left,  _wallCheckDistance, _groundLayer);
         _wallRight = _wallCheckRight != null &&
                      Physics2D.Raycast(_wallCheckRight.position, Vector2.right, _wallCheckDistance, _groundLayer);
+
+        // 락아웃 중에는 벽 부착 무효
+        bool lockout = _wallJumpLockoutTimer > 0f;
+        _isTouchingWall = CanWallJump && !IsGrounded && !lockout &&
+                          ((IsFacingRight && _wallRight) || (!IsFacingRight && _wallLeft));
     }
 
     // ── Timers ────────────────────────────────────────────────────────────
 
     private void TickTimers()
     {
-        if (!IsGrounded)          _coyoteCounter        -= Time.deltaTime;
-        if (_jumpBufferCounter  > 0f) _jumpBufferCounter  -= Time.deltaTime;
-        if (_dashCooldownCounter > 0f) _dashCooldownCounter -= Time.deltaTime;
+        if (!IsGrounded)               _coyoteCounter        -= Time.deltaTime;
+        if (_jumpBufferCounter   > 0f) _jumpBufferCounter    -= Time.deltaTime;
+        if (_dashCooldownCounter > 0f) _dashCooldownCounter  -= Time.deltaTime;
+        if (_wallJumpLockoutTimer > 0f) _wallJumpLockoutTimer -= Time.deltaTime;
     }
 
     // ── Wall slide ────────────────────────────────────────────────────────
 
     private void HandleWallSlide()
     {
-        bool touchingWall = (IsFacingRight && _wallRight) || (!IsFacingRight && _wallLeft);
-        IsWallSliding = CanWallJump && touchingWall && !IsGrounded && _rb.linearVelocity.y < 0f;
+        // 슬라이딩: 벽에 닿아있고 낙하 중일 때만 속도 제한
+        IsWallSliding = _isTouchingWall && _rb.linearVelocity.y < 0f;
 
         if (IsWallSliding)
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x,
@@ -133,11 +148,21 @@ public class PlatformerMovement : MonoBehaviour
     {
         if (IsDashing || IsKnockedBack) return;
 
-        float targetSpeed = horizontal * _moveSpeed;
-        float speedDiff   = targetSpeed - _rb.linearVelocity.x;
-        float accelRate   = Mathf.Abs(targetSpeed) > 0.01f ? _acceleration : _deceleration;
-        float force       = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, 0.9f) * Mathf.Sign(speedDiff);
-        _rb.AddForce(force * Vector2.right);
+        // 월점프 락아웃 중: 입력과 무관하게 벽 반대 방향으로 강제 이동
+        if (_wallJumpLockoutTimer > 0f)
+        {
+            float targetSpeed = _wallJumpPushDir * _moveSpeed;
+            float speedDiff   = targetSpeed - _rb.linearVelocity.x;
+            float force       = Mathf.Pow(Mathf.Abs(speedDiff) * _acceleration, 0.9f) * Mathf.Sign(speedDiff);
+            _rb.AddForce(force * Vector2.right);
+            return;
+        }
+
+        float tgtSpeed  = horizontal * _moveSpeed;
+        float diff      = tgtSpeed - _rb.linearVelocity.x;
+        float accelRate = Mathf.Abs(tgtSpeed) > 0.01f ? _acceleration : _deceleration;
+        float f         = Mathf.Pow(Mathf.Abs(diff) * accelRate, 0.9f) * Mathf.Sign(diff);
+        _rb.AddForce(f * Vector2.right);
 
         if      (horizontal > 0.01f && !IsFacingRight) Flip();
         else if (horizontal < -0.01f &&  IsFacingRight) Flip();
@@ -159,13 +184,18 @@ public class PlatformerMovement : MonoBehaviour
             _coyoteCounter     = 0f;
             _jumpBufferCounter = 0f;
         }
-        else if (IsWallSliding)
+        else if (_isTouchingWall)
         {
+            // 현재 붙어있는 벽의 반대 방향으로 점프
             float dir = IsFacingRight ? -1f : 1f;
             _rb.linearVelocity = Vector2.zero;
             _rb.AddForce(new Vector2(dir * _wallJumpForceX, _wallJumpForceY), ForceMode2D.Impulse);
             Flip();
-            _jumpBufferCounter = 0f;
+
+            // 락아웃 시작: 재부착 방지 + 밀어낼 방향 저장
+            _wallJumpLockoutTimer = _wallJumpLockout;
+            _wallJumpPushDir      = dir;
+            _jumpBufferCounter    = 0f;
         }
         else if (_extraJumpsLeft > 0)
         {
@@ -213,9 +243,9 @@ public class PlatformerMovement : MonoBehaviour
 
     private void EndDash()
     {
-        IsDashing            = false;
-        _rb.gravityScale     = 1f;
-        _rb.linearVelocity   = new Vector2(_rb.linearVelocity.x * 0.5f, _rb.linearVelocity.y);
+        IsDashing          = false;
+        _rb.gravityScale   = 1f;
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x * 0.5f, _rb.linearVelocity.y);
     }
 
     public void ApplyKnockback(Vector2 knockback)
@@ -228,9 +258,9 @@ public class PlatformerMovement : MonoBehaviour
 
     private void Flip()
     {
-        IsFacingRight      = !IsFacingRight;
-        Vector3 s          = transform.localScale;
-        s.x               *= -1f;
+        IsFacingRight        = !IsFacingRight;
+        Vector3 s            = transform.localScale;
+        s.x                 *= -1f;
         transform.localScale = s;
     }
 
