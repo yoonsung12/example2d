@@ -15,9 +15,6 @@ public class Room : MonoBehaviour
     public string RoomId       => _roomId;
     public Collider2D CameraBounds => _cameraBounds;
 
-    // 현재 방문 중인 전투 레코드 (플레이어가 이 방에 있는 동안 유효)
-    public PlayerBehaviorTracker.RoomBattleRecord CurrentRecord { get; private set; }
-
     private readonly List<EnemyBase> _enemies = new();
 
     private void Awake()
@@ -42,17 +39,9 @@ public class Room : MonoBehaviour
         // 3. 룸 안의 적 탐색
         DiscoverEnemies();
 
-        // 4. 전투 기록 시작
-        CurrentRecord = PlayerBehaviorTracker.Instance?
-            .RecordRoomEntered(_roomId, _enemies.Count);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (!other.CompareTag("Player")) return;
-        // 퇴장 시 레코드 닫기 (저장은 이미 됨)
-        CurrentRecord = null;
-    }
+    private void OnTriggerExit2D(Collider2D other) { } // 퇴장 이벤트 (현재 미사용)
 
     // ── 적 탐색 ────────────────────────────────────────────────────────────
 
@@ -86,9 +75,6 @@ public class Room : MonoBehaviour
 
     private void OnEnemyDied(EnemyBase enemy)
     {
-        enemy.OnEnemyDied -= OnEnemyDied;
-
-        if (CurrentRecord == null) return;
-        PlayerBehaviorTracker.Instance?.RecordEnemyKilledInRoom(CurrentRecord);
+        enemy.OnEnemyDied -= OnEnemyDied; // 사망한 적의 이벤트 구독 해제
     }
 }

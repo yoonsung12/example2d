@@ -8,6 +8,12 @@ public class CharacterCombat : MonoBehaviour
     /// <summary>히트박스 시작 전 근접 사각지대를 커버하는 반경 (플레이어 중심 기준)</summary>
     [SerializeField] private float      _closeRangeRadius = 0.6f;
 
+    /// <summary>공격 시작 시 발생 — CombatStatsTracker가 구독</summary>
+    public event System.Action OnAttackStarted;
+
+    /// <summary>적에게 피해를 입힐 때 발생 — CombatStatsTracker가 구독</summary>
+    public event System.Action OnHitDealt;
+
     private CharacterBase _character;
     private float         _cooldownTimer;
     private bool          _isAttacking;
@@ -34,16 +40,18 @@ public class CharacterCombat : MonoBehaviour
         }
     }
 
-    public bool CanAttack => _cooldownTimer <= 0f && !_isAttacking;
+    public bool CanAttack   => _cooldownTimer <= 0f && !_isAttacking; // 공격 가능 여부
+    public bool IsAttacking => _isAttacking;                          // 현재 공격 중 여부 (BT 액션에서 참조)
 
     public void StartAttack()
     {
         if (!CanAttack) return;
         _isAttacking    = true;
-        _attackDuration = _character.Stats != null ? _character.Stats.attackCooldown * 0.5f : 0.2f;
+        _attackDuration = _character.Stats != null ? _character.Stats.attackCooldown * 0.5f : 0.2f; // 공격 지속 시간
         _attackTimer    = _attackDuration;
-        _cooldownTimer  = _character.Stats != null ? _character.Stats.attackCooldown : 0.4f;
+        _cooldownTimer  = _character.Stats != null ? _character.Stats.attackCooldown : 0.4f;         // 공격 쿨다운
         _character.Anim?.PlayAttack();
+        OnAttackStarted?.Invoke(); // 공격 시작 이벤트 발생
         ActivateHitbox();
     }
 
@@ -88,9 +96,10 @@ public class CharacterCombat : MonoBehaviour
         if (target == null) return;
         if (!_hitTargets.Add(target)) return;
 
-        float damage    = _character.Stats != null ? _character.Stats.attackDamage   : 20f;
-        float kbForce   = _character.Stats != null ? _character.Stats.knockbackForce : 5f;
-        Vector2 knockback = (other.transform.position - transform.position).normalized * kbForce;
+        float damage    = _character.Stats != null ? _character.Stats.attackDamage   : 20f; // 공격 데미지
+        float kbForce   = _character.Stats != null ? _character.Stats.knockbackForce : 5f;  // 넉백 강도
+        Vector2 knockback = (other.transform.position - transform.position).normalized * kbForce; // 넉백 방향
         target.TakeDamage(damage, knockback);
+        OnHitDealt?.Invoke(); // 명중 이벤트 발생
     }
 }

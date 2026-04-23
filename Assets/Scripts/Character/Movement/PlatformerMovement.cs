@@ -39,6 +39,19 @@ public class PlatformerMovement : MonoBehaviour
     public bool CanDash       { get; set; }
     public bool CanWallJump   { get; set; }
 
+    /// <summary>활공 등 외부에서 낙하 가속을 억제할 때 true로 설정</summary>
+    public bool SuppressFallMultiplier { get; set; }
+
+    // ── 디버프 플래그 ─────────────────────────────────────────────────────
+    /// <summary>봄 속박: 이동/점프/대시 불가</summary>
+    public bool IsBound    { get; set; }
+    /// <summary>가을 혼란: 좌우 입력 반전</summary>
+    public bool IsConfused { get; set; }
+    /// <summary>겨울 빙결: 모든 행동 불가</summary>
+    public bool IsFrozen   { get; set; }
+    /// <summary>여름 이속저하: 이동속도 배율 (기본 1)</summary>
+    public float SpeedMultiplier { get; set; } = 1f;
+
     // Read-only state
     public bool    IsGrounded    { get; private set; }
     public bool    IsWallSliding { get; private set; }
@@ -146,7 +159,10 @@ public class PlatformerMovement : MonoBehaviour
 
     public void Move(float horizontal)
     {
+        if (IsFrozen || IsBound) return;
         if (IsDashing || IsKnockedBack) return;
+
+        if (IsConfused) horizontal = -horizontal; // 가을 혼란: 좌우 반전
 
         // 월점프 락아웃 중: 입력과 무관하게 벽 반대 방향으로 강제 이동
         if (_wallJumpLockoutTimer > 0f)
@@ -158,7 +174,7 @@ public class PlatformerMovement : MonoBehaviour
             return;
         }
 
-        float tgtSpeed  = horizontal * _moveSpeed;
+        float tgtSpeed  = horizontal * _moveSpeed * SpeedMultiplier; // 여름 이속저하 반영
         float diff      = tgtSpeed - _rb.linearVelocity.x;
         float accelRate = Mathf.Abs(tgtSpeed) > 0.01f ? _acceleration : _deceleration;
         float f         = Mathf.Pow(Mathf.Abs(diff) * accelRate, 0.9f) * Mathf.Sign(diff);
@@ -170,6 +186,7 @@ public class PlatformerMovement : MonoBehaviour
 
     public void RequestJump()
     {
+        if (IsFrozen || IsBound) return;
         _jumpBufferCounter = _jumpBufferTime;
         TryConsumeJump();
     }
@@ -221,6 +238,8 @@ public class PlatformerMovement : MonoBehaviour
     // Call every FixedUpdate from PlayerController for better-feeling gravity
     public void ApplyFallMultiplier()
     {
+        if (SuppressFallMultiplier) return; // 활공 등 외부 억제 중에는 스킵
+
         if (_rb.linearVelocity.y < 0f)
             _rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1f) * Time.fixedDeltaTime;
         else if (_rb.linearVelocity.y > 0f)
@@ -229,6 +248,7 @@ public class PlatformerMovement : MonoBehaviour
 
     public void RequestDash()
     {
+        if (IsFrozen || IsBound) return;
         if (!CanDash || IsDashing || _dashCooldownCounter > 0f) return;
 
         IsDashing            = true;

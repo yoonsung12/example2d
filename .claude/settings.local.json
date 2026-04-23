@@ -15,7 +15,8 @@
       "mcp__mcp-for-unity__read_console",
       "mcp__mcp-for-unity__refresh_unity",
       "mcp__UnityMCP__execute_code",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "mcp__mcp-for-unity__manage_asset"
     ]
   }
 }

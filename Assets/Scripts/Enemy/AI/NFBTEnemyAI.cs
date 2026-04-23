@@ -1,213 +1,164 @@
-using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
 
 /// <summary>
 /// NFBT (Neuro-Fuzzy Behavior Tree) 적 AI 컨트롤러.
-/// Layer1(RBFN) → Layer2(Fuzzy) 로 ActiveBranch를 결정하고,
-/// Layer3 실행은 BehaviorGraphAgent에 위임합니다.
+/// CombatStatsTracker → FCM → RBFN 파이프라인으로 플레이어 전투 스타일을 분류하고
+/// 클러스터 인덱스 기반으로 ActiveBranch를 결정합니다.
+/// 클러스터 0=방어형→Chase/Attack / 1=균형형→Evade/Recover / 2=공격형→Counter
 /// </summary>
 [RequireComponent(typeof(EnemyBase))]
 [RequireComponent(typeof(BehaviorGraphAgent))]
 public class NFBTEnemyAI : MonoBehaviour
 {
     [Header("Detection")]
-    [SerializeField] private float     _detectionRange = 10f;
-    [SerializeField] private float     _attackRange    = 1.5f;
+    [SerializeField] private float _detectionRange = 10f; // 적이 플레이어를 감지하는 반경
+    [SerializeField] private float _attackRange    = 1.5f; // 적의 공격 가능 반경
 
     [Header("FCM")]
-    [SerializeField] private float _fcmUpdateInterval = 30f;
+    [SerializeField] private float _sampleInterval    = 5f;  // 피처 벡터 샘플링 간격 (초)
+    [SerializeField] private float _fcmUpdateInterval = 30f; // FCM 센터 갱신 간격 (초)
 
-    // ── 공개 프로퍼티 (BT 노드에서 참조) ────────────────────────────────────
-    public EnemyBase Enemy           { get; private set; }
-    public Transform PlayerTransform { get; private set; }
-    public float     AttackRange     => _attackRange;
-    public float     DetectionRange  => _detectionRange;
+    // ── 공개 프로퍼티 (BT 노드에서 참조) ─────────────────────────────────────
+    public EnemyBase Enemy           { get; private set; } // 적 기본 컴포넌트
+    public Transform PlayerTransform { get; private set; } // 플레이어 트랜스폼
+    public float     AttackRange     => _attackRange;       // 공격 범위 (읽기 전용)
+    public float     DetectionRange  => _detectionRange;    // 감지 범위 (읽기 전용)
 
-    /// <summary>현재 선택된 BT 분기명. BT 노드에서 참조합니다.</summary>
+    /// <summary>현재 선택된 BT 분기명 (BT 노드에서 참조)</summary>
     public string ActiveBranch { get; private set; } = "None";
 
     // ── NFBT 계층 ────────────────────────────────────────────────────────────
-    private RBFNetwork      _rbfn;
-    private FCMClusterer    _fcm;
-    private FuzzyRuleEngine _fuzzy;
+    private RBFNetwork   _rbfn; // 클러스터 인덱스 분류기
+    private FCMClusterer _fcm;  // 실시간 피처 클러스터링
 
-    // ── FCM 샘플 수집 ────────────────────────────────────────────────────────
-    private readonly List<float> _hpSamples   = new();
-    private readonly List<float> _distSamples = new();
-    private float _fcmTimer;
+    // ── 타이머 ────────────────────────────────────────────────────────────────
+    private float _sampleTimer; // 다음 샘플링까지 남은 시간
+    private float _fcmTimer;    // 다음 FCM 갱신까지 남은 시간
 
-    // ── PlayStyle_Score ───────────────────────────────────────────────────────
-    private float _playStyleScore = 0.5f;
-
-    // 교전 기록 중복 방지 플래그
-    private bool _engagementRecorded;
+    // ── 분기 이름 매핑 (클러스터 인덱스 → 분기명) ────────────────────────────
+    // 인덱스 0: 방어형 플레이어 → 적이 압박 (Chase/Attack)
+    // 인덱스 1: 균형형 플레이어 → 적이 회피 (Evade/Recover)
+    // 인덱스 2: 공격형 플레이어 → 적이 카운터 (Counter)
+    private static readonly string[] BranchNames =
+    {
+        "Chase/Attack",   // 클러스터 0
+        "Evade/Recover",  // 클러스터 1
+        "Counter",        // 클러스터 2
+    };
 
     // ── 디버그 프로퍼티 (AIDebugDisplay / AIScatterPlotUI에서 참조) ───────────
-    public float  DbgPlayStyle  { get; private set; } = 0.5f;
-    public float  DbgSBaseA     { get; private set; }
-    public float  DbgSBaseB     { get; private set; }
-    public float  DbgSBaseC     { get; private set; }
-    public float  DbgSFuzzyA    { get; private set; }
-    public float  DbgSFuzzyB    { get; private set; }
-    public float  DbgSFuzzyC    { get; private set; }
-    public float  DbgUFinalA    { get; private set; }
-    public float  DbgUFinalB    { get; private set; }
-    public float  DbgUFinalC    { get; private set; }
-    public string DbgBranch     { get; private set; } = "None";
-    public float  DbgDist       { get; private set; }
-
-    // FCM 임계값 (산점도 기준선 / FCM 패널용)
-    public float DbgHPLow       => _fcm.HPLow;
-    public float DbgHPMedium    => _fcm.HPMedium;
-    public float DbgHPHigh      => _fcm.HPHigh;
-    public float DbgDistNear    => _fcm.DistNear;
-    public float DbgDistFar     => _fcm.DistFar;
-    public float DbgFCMLastTime { get; private set; }
+    public float     DbgAttackFreq   { get; private set; }       // 현재 attack_frequency
+    public float     DbgHitRate      { get; private set; }       // 현재 hit_rate
+    public float     DbgDamagePerSec { get; private set; }       // 현재 damage_per_sec
+    public int       DbgClusterIndex { get; private set; }       // RBFN 출력 클러스터 인덱스
+    public string    DbgBranch       { get; private set; } = "None"; // 현재 분기명
+    public float     DbgDist         { get; private set; }       // 플레이어까지 거리
+    public float     DbgFCMLastTime  { get; private set; }       // 마지막 FCM 갱신 시각
+    public float[][] DbgCenters      { get; private set; }       // FCM 클러스터 중심 (시각화용)
 
     // ── Unity 생명주기 ───────────────────────────────────────────────────────
 
     private void Awake()
     {
-        Enemy  = GetComponent<EnemyBase>();
-        _rbfn  = new RBFNetwork();
-        _fcm   = new FCMClusterer();
-        _fuzzy = new FuzzyRuleEngine(_fcm);
+        Enemy      = GetComponent<EnemyBase>(); // 적 컴포넌트 캐싱
+        _rbfn      = new RBFNetwork();          // RBFN 생성
+        _fcm       = new FCMClusterer();        // FCM 생성
+        DbgCenters = _fcm.GetCenters();         // 초기 기본 센터 저장
     }
 
     private void Start()
     {
-        // 플레이어 참조
-        var pc = FindFirstObjectByType<PlayerController>();
-        if (pc != null) PlayerTransform = pc.transform;
+        var pc = FindFirstObjectByType<PlayerController>(); // 씬에서 플레이어 컨트롤러 탐색
+        if (pc != null) PlayerTransform = pc.transform;     // 플레이어 트랜스폼 캐싱
 
-        // Layer1: 세션 시작 시 1회 PlayStyle_Score 계산
-        if (PlayerBehaviorTracker.Instance != null)
-            _playStyleScore = _rbfn.Compute(PlayerBehaviorTracker.Instance.GetInputVector());
-
-        _fcmTimer = _fcmUpdateInterval;
+        _sampleTimer = _sampleInterval;    // 첫 샘플링 타이머 초기화
+        _fcmTimer    = _fcmUpdateInterval; // 첫 FCM 갱신 타이머 초기화
     }
 
     private void Update()
     {
-        if (Enemy.IsDead || PlayerTransform == null) return;
+        if (Enemy.IsDead || PlayerTransform == null) return; // 사망 또는 플레이어 없으면 무시
 
-        float dist     = Vector2.Distance(transform.position, PlayerTransform.position);
-        float playerHP = GetPlayerHP();
+        float dist = Vector2.Distance(transform.position, PlayerTransform.position); // 플레이어까지 거리
 
-        // 탐지 범위 밖 → 정지
+        // 감지 범위 밖이면 정지
         if (dist > _detectionRange)
         {
-            Enemy.Movement?.Move(0f);
-            ActiveBranch = "None";
+            Enemy.Movement?.Move(0f); // 이동 정지
+            ActiveBranch = "None";    // 분기 초기화
             return;
         }
 
-        // FCM 샘플 수집 (최대 500개)
-        if (_hpSamples.Count  < 500) _hpSamples.Add(playerHP);
-        if (_distSamples.Count < 500) _distSamples.Add(dist);
+        var tracker = CombatStatsTracker.Instance; // 전투 통계 트래커 참조
+        if (tracker == null) return;                // 트래커 없으면 무시
 
-        // Layer2: 퍼지 규칙 평가
-        FuzzyRuleEngine.FuzzyResult fr = _fuzzy.Evaluate(_playStyleScore, playerHP, dist);
+        float[] features = tracker.GetFeatureVector(); // 현재 3D 피처 벡터 취득
 
-        // S_base: 기본 유틸리티 (삼각 상황 판단)
-        float sBaseChase  = Mathf.Clamp01(1f - dist / _detectionRange);
-        float sBaseEvade  = Mathf.Clamp01(1f - Enemy.CurrentHealth / Enemy.MaxHealth);
-        float sBaseAmbush = Mathf.Clamp01(dist / _detectionRange * 0.8f);
-
-        // S_fuzzy: 퍼지 규칙 결과 (Branch A, B, C 순)
-        float sFuzzyA = Mathf.Max(fr.UtilityChase, fr.UtilityRush);
-        float sFuzzyB = fr.UtilityEvade;
-        float sFuzzyC = fr.UtilityChase;
-
-        // U_final 계산 및 분기 선택 (Layer3 진입점)
-        float uA = 0.7f * sBaseChase  + 0.3f * sFuzzyA;
-        float uB = 0.7f * sBaseEvade  + 0.3f * sFuzzyB;
-        float uC = 0.7f * sBaseAmbush + 0.3f * sFuzzyC;
-
-        if      (uA >= uB && uA >= uC) ActiveBranch = "Chase/Attack";
-        else if (uB >= uA && uB >= uC) ActiveBranch = "Evade/Recover";
-        else                           ActiveBranch = "Ambush";
+        int clusterIndex = _rbfn.Compute(features);    // RBFN으로 클러스터 분류
+        ActiveBranch = BranchNames[clusterIndex];       // 클러스터 인덱스 → 분기명 변환
 
         // 디버그 값 갱신
-        DbgPlayStyle = _playStyleScore;
-        DbgSBaseA    = sBaseChase;  DbgSFuzzyA = sFuzzyA;
-        DbgSBaseB    = sBaseEvade;  DbgSFuzzyB = sFuzzyB;
-        DbgSBaseC    = sBaseAmbush; DbgSFuzzyC = sFuzzyC;
-        DbgUFinalA   = uA;
-        DbgUFinalB   = uB;
-        DbgUFinalC   = uC;
-        DbgBranch    = ActiveBranch;
-        DbgDist      = dist;
+        DbgAttackFreq   = features[0];    // attack_frequency
+        DbgHitRate      = features[1];    // hit_rate
+        DbgDamagePerSec = features[2];    // damage_per_sec
+        DbgClusterIndex = clusterIndex;   // 클러스터 인덱스
+        DbgBranch       = ActiveBranch;   // 현재 분기명
+        DbgDist         = dist;           // 플레이어 거리
 
-        // 세션 로그
+        // 세션 로그 기록
         SessionLogger.Instance?.TryLog(
             Time.deltaTime,
-            dist,
-            playerHP,
             ActiveBranch,
-            _playStyleScore,
-            _fcm.HPLow,
-            _fcm.HPHigh,
-            _fcm.DistNear,
-            _fcm.DistFar);
-
-        // 교전 기록 (Chase/Attack 분기 최초 선택 시 1회)
-        if (!_engagementRecorded && ActiveBranch == "Chase/Attack")
-        {
-            _engagementRecorded = true;
-            var room = Enemy.HomeRoom;
-            if (room?.CurrentRecord != null)
-                PlayerBehaviorTracker.Instance?.RecordRoomEngagement(room.CurrentRecord);
-        }
-        // Layer3 실행은 BehaviorGraphAgent가 자체 업데이트에서 처리합니다.
+            features[0],
+            features[1],
+            features[2],
+            clusterIndex);
     }
 
     private void FixedUpdate()
     {
-        if (Enemy.IsDead) return;
+        if (Enemy.IsDead) return; // 사망 시 무시
 
-        // FCM 주기적 임계값 갱신
+        var tracker = CombatStatsTracker.Instance;
+        if (tracker == null) return;
+
+        // 피처 벡터 샘플링 (FCM 입력용)
+        _sampleTimer -= Time.fixedDeltaTime;
+        if (_sampleTimer <= 0f)
+        {
+            _fcm.AddSample(tracker.GetFeatureVector()); // 현재 피처 벡터를 FCM 샘플로 추가
+            _sampleTimer = _sampleInterval;              // 타이머 리셋
+        }
+
+        // FCM 갱신 및 RBFN 센터 업데이트
         _fcmTimer -= Time.fixedDeltaTime;
         if (_fcmTimer <= 0f)
         {
-            // 갱신 전 값 스냅샷
-            float prevHPLow    = _fcm.HPLow;
-            float prevHPMed    = _fcm.HPMedium;
-            float prevHPHigh   = _fcm.HPHigh;
-            float prevDistNear = _fcm.DistNear;
-            float prevDistFar  = _fcm.DistFar;
-
-            _fcm.UpdateHPClusters(_hpSamples);
-            _fcm.UpdateDistanceClusters(_distSamples);
-            _hpSamples.Clear();
-            _distSamples.Clear();
-            _fcmTimer    = _fcmUpdateInterval;
-            DbgFCMLastTime = Time.time;
+            float[][] newCenters = _fcm.GetCenters(); // FCM 실행 → 클러스터 중심 취득
+            _rbfn.SetCenters(newCenters);              // RBFN 센터 갱신
+            DbgCenters     = newCenters;               // 디버그용 센터 저장
+            DbgFCMLastTime = Time.time;                // 마지막 갱신 시각 기록
+            _fcm.ClearSamples();                       // 샘플 초기화
+            _fcmTimer = _fcmUpdateInterval;            // 타이머 리셋
 
             Debug.Log(
-                $"[FCM 갱신] t={Time.time:F1}s\n" +
-                $"  HP    Low  {prevHPLow:F1} → {_fcm.HPLow:F1}\n" +
-                $"  HP    Med  {prevHPMed:F1} → {_fcm.HPMedium:F1}\n" +
-                $"  HP    High {prevHPHigh:F1} → {_fcm.HPHigh:F1}\n" +
-                $"  Dist  Near {prevDistNear:F2} → {_fcm.DistNear:F2}\n" +
-                $"  Dist  Far  {prevDistFar:F2} → {_fcm.DistFar:F2}");
+                $"[FCM 갱신] t={Time.time:F1}s | " +
+                $"C0(방어)={Vec3Str(newCenters[0])} " +
+                $"C1(균형)={Vec3Str(newCenters[1])} " +
+                $"C2(공격)={Vec3Str(newCenters[2])}");
         }
     }
 
-    // ── 헬퍼 ─────────────────────────────────────────────────────────────────
-
-    private float GetPlayerHP()
-    {
-        var cb = PlayerTransform?.GetComponent<CharacterBase>();
-        return cb != null ? cb.CurrentHealth : 100f;
-    }
+    // float[3] 배열을 "[ x, y, z ]" 형식 문자열로 변환 (디버그 출력용)
+    private static string Vec3Str(float[] v) =>
+        $"[{v[0]:F2},{v[1]:F2},{v[2]:F2}]";
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.yellow;                                    // 감지 범위: 노란색
         Gizmos.DrawWireSphere(transform.position, _detectionRange);
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.red;                                       // 공격 범위: 빨간색
         Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
 }

@@ -14,6 +14,12 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     public bool  IsDead        { get; protected set; }
     public CharacterStats Stats => _stats;
 
+    /// <summary>HP 변경 시 발생 (현재HP, 최대HP)</summary>
+    public event System.Action<float, float> OnHealthChanged;
+
+    /// <summary>피해를 받을 때 발생 (피해량) — CombatStatsTracker가 구독</summary>
+    public event System.Action<float> OnDamageTaken;
+
     protected virtual void Awake()
     {
         Movement = GetComponent<PlatformerMovement>();
@@ -26,7 +32,9 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     {
         if (IsDead) return;
 
-        CurrentHealth = Mathf.Max(0f, CurrentHealth - damage);
+        CurrentHealth = Mathf.Max(0f, CurrentHealth - damage); // HP를 0 이하로 내려가지 않게 갱신
+        OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);     // HP 변경 이벤트 발생
+        OnDamageTaken?.Invoke(damage);                         // 피해량 이벤트 발생 (CombatStatsTracker 수신)
         if (knockback != Vector2.zero)
             Movement?.ApplyKnockback(knockback);
 
@@ -52,5 +60,6 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     {
         if (IsDead) return;
         CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
+        OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 }
