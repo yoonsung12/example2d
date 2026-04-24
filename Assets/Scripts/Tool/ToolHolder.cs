@@ -93,12 +93,13 @@ public class ToolHolder : MonoBehaviour
         if (_lighterHeld)  _lighterTool?.Use(dir);
     }
 
-    /// <summary>모든 도구 사용 중단</summary>
+    /// <summary>모든 도구 사용 중단 (활공 중이면 종료)</summary>
     private void StopAllTools()
     {
         _fanTool?.StopUse();
         _umbrellaTool?.StopUse();
         _lighterTool?.StopUse();
+        _comboSystem?.StopGlide(); // S+D 조합 해제 시 활공 종료
     }
 
     /// <summary>캐릭터가 바라보는 수평 방향 벡터 반환</summary>

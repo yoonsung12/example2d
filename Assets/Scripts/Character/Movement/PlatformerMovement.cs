@@ -51,6 +51,8 @@ public class PlatformerMovement : MonoBehaviour
     public bool IsFrozen   { get; set; }
     /// <summary>여름 이속저하: 이동속도 배율 (기본 1)</summary>
     public float SpeedMultiplier { get; set; } = 1f;
+    /// <summary>활공 중 수평 이동 배율 (ToolComboSystem에서 설정)</summary>
+    public float GlideSpeedMultiplier { get; set; } = 1f;
 
     // Read-only state
     public bool    IsGrounded    { get; private set; }
@@ -174,7 +176,7 @@ public class PlatformerMovement : MonoBehaviour
             return;
         }
 
-        float tgtSpeed  = horizontal * _moveSpeed * SpeedMultiplier; // 여름 이속저하 반영
+        float tgtSpeed  = horizontal * _moveSpeed * SpeedMultiplier * GlideSpeedMultiplier; // 이속저하 + 활공 배율 반영
         float diff      = tgtSpeed - _rb.linearVelocity.x;
         float accelRate = Mathf.Abs(tgtSpeed) > 0.01f ? _acceleration : _deceleration;
         float f         = Mathf.Pow(Mathf.Abs(diff) * accelRate, 0.9f) * Mathf.Sign(diff);

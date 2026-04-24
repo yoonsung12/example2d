@@ -35,7 +35,18 @@ public partial class MoveToPlayerBTAction : Unity.Behavior.Action
         if (dist <= _ai.AttackRange) return Status.Success;
 
         float dir = player.position.x > enemy.transform.position.x ? 1f : -1f;
-        enemy.Movement?.Move(dir);
+
+        // 진행 방향 전방 하단에 땅이 없으면 이동 정지 (낭떠러지 방지)
+        Vector2 edgeOrigin = (Vector2)enemy.transform.position
+                           + new Vector2(dir * _ai.EdgeCheckDist, 0f); // 전방 체크 기점
+        bool hasGround = Physics2D.Raycast(edgeOrigin, Vector2.down, 1f, _ai.GroundLayer); // 아래로 레이캐스트
+        if (!hasGround)
+        {
+            enemy.Movement?.Move(0f); // 낭떠러지 감지 시 정지
+            return Status.Running;    // 플레이어를 기다리며 Running 유지
+        }
+
+        enemy.Movement?.Move(dir); // 낭떠러지 없으면 정상 이동
         return Status.Running;
     }
 

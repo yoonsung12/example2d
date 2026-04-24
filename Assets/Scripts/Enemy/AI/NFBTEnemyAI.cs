@@ -6,6 +6,7 @@ using UnityEngine;
 /// CombatStatsTracker → FCM → RBFN 파이프라인으로 플레이어 전투 스타일을 분류하고
 /// 클러스터 인덱스 기반으로 ActiveBranch를 결정합니다.
 /// 클러스터 0=방어형→Chase/Attack / 1=균형형→Evade/Recover / 2=공격형→Counter
+/// 감지 범위 밖 → Patrol (이동은 PatrolBTAction이 담당)
 /// </summary>
 [RequireComponent(typeof(EnemyBase))]
 [RequireComponent(typeof(BehaviorGraphAgent))]
@@ -19,14 +20,25 @@ public class NFBTEnemyAI : MonoBehaviour
     [SerializeField] private float _sampleInterval    = 5f;  // 피처 벡터 샘플링 간격 (초)
     [SerializeField] private float _fcmUpdateInterval = 30f; // FCM 센터 갱신 간격 (초)
 
+    [Header("Patrol")]
+    [SerializeField] private Transform _leftBound;             // 순찰 좌측 경계 오브젝트
+    [SerializeField] private Transform _rightBound;            // 순찰 우측 경계 오브젝트
+    [SerializeField] private float     _edgeCheckDist = 0.5f; // 낭떠러지 전방 감지 거리
+    [SerializeField] private LayerMask _groundLayer;           // 지형 레이어 마스크
+
     // ── 공개 프로퍼티 (BT 노드에서 참조) ─────────────────────────────────────
     public EnemyBase Enemy           { get; private set; } // 적 기본 컴포넌트
     public Transform PlayerTransform { get; private set; } // 플레이어 트랜스폼
     public float     AttackRange     => _attackRange;       // 공격 범위 (읽기 전용)
     public float     DetectionRange  => _detectionRange;    // 감지 범위 (읽기 전용)
 
+    public Transform LeftBound     => _leftBound;           // 순찰 좌측 경계 (PatrolBTAction 참조)
+    public Transform RightBound    => _rightBound;          // 순찰 우측 경계 (PatrolBTAction 참조)
+    public float     EdgeCheckDist => _edgeCheckDist;       // 낭떠러지 체크 거리 (PatrolBTAction 참조)
+    public LayerMask GroundLayer   => _groundLayer;         // 지형 레이어 (PatrolBTAction 참조)
+
     /// <summary>현재 선택된 BT 분기명 (BT 노드에서 참조)</summary>
-    public string ActiveBranch { get; private set; } = "None";
+    public string ActiveBranch { get; private set; } = "Patrol";
 
     // ── NFBT 계층 ────────────────────────────────────────────────────────────
     private RBFNetwork   _rbfn; // 클러스터 인덱스 분류기
@@ -52,7 +64,7 @@ public class NFBTEnemyAI : MonoBehaviour
     public float     DbgHitRate      { get; private set; }       // 현재 hit_rate
     public float     DbgDamagePerSec { get; private set; }       // 현재 damage_per_sec
     public int       DbgClusterIndex { get; private set; }       // RBFN 출력 클러스터 인덱스
-    public string    DbgBranch       { get; private set; } = "None"; // 현재 분기명
+    public string    DbgBranch       { get; private set; } = "Patrol"; // 현재 분기명
     public float     DbgDist         { get; private set; }       // 플레이어까지 거리
     public float     DbgFCMLastTime  { get; private set; }       // 마지막 FCM 갱신 시각
     public float[][] DbgCenters      { get; private set; }       // FCM 클러스터 중심 (시각화용)
@@ -82,11 +94,10 @@ public class NFBTEnemyAI : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, PlayerTransform.position); // 플레이어까지 거리
 
-        // 감지 범위 밖이면 정지
+        // 감지 범위 밖이면 순찰 분기 유지 (이동은 PatrolBTAction이 담당)
         if (dist > _detectionRange)
         {
-            Enemy.Movement?.Move(0f); // 이동 정지
-            ActiveBranch = "None";    // 분기 초기화
+            ActiveBranch = "Patrol"; // Patrol 분기로 전환
             return;
         }
 

@@ -23,9 +23,10 @@ public partial class AttackPlayerBTAction : Unity.Behavior.Action
 
     protected override Status OnStart()
     {
-        _ai                 = Agent.Value?.GetComponent<NFBTEnemyAI>();
-        _extraCooldownTimer = 0f;
-        return _ai != null ? Status.Running : Status.Failure;
+        _ai                 = Agent.Value?.GetComponent<NFBTEnemyAI>(); // AI 컴포넌트 캐싱
+        _extraCooldownTimer = 0f;                                        // 쿨다운 타이머 초기화
+        _ai?.Enemy.Movement?.Move(0f);                                   // 공격 시작 즉시 이동 정지
+        return _ai != null ? Status.Running : Status.Failure;           // AI 없으면 실패
     }
 
     protected override Status OnUpdate()

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,14 +26,13 @@ public class ToolComboSystem : MonoBehaviour
     [SerializeField] private float _heatWindDamage  = 1f;  // 열풍 피해량
 
     [Header("Glide — 활공")]
-    [SerializeField] private float _glideGravityScale = 0.15f; // 활공 중 중력 배율
-    [SerializeField] private float _glideDuration     = 2.5f;  // 활공 지속 시간(초)
+    [SerializeField] private float _glideGravityScale   = 0.15f; // 활공 중 중력 배율
+    [SerializeField] private float _glideMoveMultiplier = 0.3f;  // 활공 중 수평 이동 배율
 
     private Rigidbody2D        _rb;
     private PlatformerMovement _movement;
 
-    private bool      _isGliding;
-    private Coroutine _glideRoutine;
+    public bool IsGliding { get; private set; } // 현재 활공 중 여부
 
     private void Awake()
     {
@@ -88,27 +86,33 @@ public class ToolComboSystem : MonoBehaviour
         }
     }
 
-    /// <summary>활공 시작: 중력 축소 + 시간 종료 후 원복</summary>
-    private void DoGlide()
+    /// <summary>활공 시작: S+D 누르는 동안 중력 축소 + 이동 속도 감소</summary>
+    private void DoGlide() => StartGlide();
+
+    /// <summary>활공 시작 (ToolHolder에서 S+D 감지 시 호출)</summary>
+    public void StartGlide()
     {
-        if (_isGliding) return; // 중복 방지
-        if (_glideRoutine != null) StopCoroutine(_glideRoutine);
-        _glideRoutine = StartCoroutine(GlideRoutine());
+        if (IsGliding) return;                                        // 이미 활공 중이면 무시
+        IsGliding              = true;
+        _rb.gravityScale       = _glideGravityScale;                  // 중력 축소
+        if (_movement != null)
+        {
+            _movement.SuppressFallMultiplier = true;                  // 낙하 가속 억제
+            _movement.GlideSpeedMultiplier   = _glideMoveMultiplier;  // 수평 이동 감소
+        }
     }
 
-    /// <summary>활공 지속 시간 동안 중력을 낮추고 종료 시 복원</summary>
-    private IEnumerator GlideRoutine()
+    /// <summary>활공 종료 (ToolHolder에서 S 또는 D 뗄 때 호출)</summary>
+    public void StopGlide()
     {
-        _isGliding       = true;
-        _rb.gravityScale = _glideGravityScale;
-        if (_movement != null) _movement.SuppressFallMultiplier = true; // 낙하 가속 억제
-
-        yield return new WaitForSeconds(_glideDuration);
-
-        _rb.gravityScale = 1f;
-        if (_movement != null) _movement.SuppressFallMultiplier = false;
-        _isGliding    = false;
-        _glideRoutine = null;
+        if (!IsGliding) return;                                       // 활공 중이 아니면 무시
+        IsGliding        = false;
+        _rb.gravityScale = 1f;                                        // 중력 복원
+        if (_movement != null)
+        {
+            _movement.SuppressFallMultiplier = false;                 // 낙하 가속 복원
+            _movement.GlideSpeedMultiplier   = 1f;                    // 이동 속도 복원
+        }
     }
 
     private void OnDrawGizmosSelected()
