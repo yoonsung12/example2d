@@ -17,7 +17,8 @@
       "mcp__UnityMCP__execute_code",
       "Bash(python:*)",
       "mcp__mcp-for-unity__manage_asset",
-      "mcp__mcp-for-unity__manage_gameobject"
+      "mcp__mcp-for-unity__manage_gameobject",
+      "mcp__UnityMCP__find_gameobjects"
     ]
   }
 }

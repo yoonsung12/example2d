@@ -21,10 +21,11 @@ public class NFBTEnemyAI : MonoBehaviour
     [SerializeField] private float _fcmUpdateInterval = 30f; // FCM 센터 갱신 간격 (초)
 
     [Header("Patrol")]
-    [SerializeField] private Transform _leftBound;             // 순찰 좌측 경계 오브젝트
-    [SerializeField] private Transform _rightBound;            // 순찰 우측 경계 오브젝트
+    [SerializeField] private float     _patrolHalfWidth = 3f; // 스폰 위치 기준 좌우 패트롤 범위 절반
     [SerializeField] private float     _edgeCheckDist = 0.5f; // 낭떠러지 전방 감지 거리
     [SerializeField] private LayerMask _groundLayer;           // 지형 레이어 마스크
+
+    private float _startX; // 스폰 시점 X 좌표 (패트롤 경계 기준점)
 
     // ── 공개 프로퍼티 (BT 노드에서 참조) ─────────────────────────────────────
     public EnemyBase Enemy           { get; private set; } // 적 기본 컴포넌트
@@ -32,10 +33,10 @@ public class NFBTEnemyAI : MonoBehaviour
     public float     AttackRange     => _attackRange;       // 공격 범위 (읽기 전용)
     public float     DetectionRange  => _detectionRange;    // 감지 범위 (읽기 전용)
 
-    public Transform LeftBound     => _leftBound;           // 순찰 좌측 경계 (PatrolBTAction 참조)
-    public Transform RightBound    => _rightBound;          // 순찰 우측 경계 (PatrolBTAction 참조)
-    public float     EdgeCheckDist => _edgeCheckDist;       // 낭떠러지 체크 거리 (PatrolBTAction 참조)
-    public LayerMask GroundLayer   => _groundLayer;         // 지형 레이어 (PatrolBTAction 참조)
+    public float     PatrolLeftX   => _startX - _patrolHalfWidth; // 순찰 좌측 경계 X (PatrolBTAction 참조)
+    public float     PatrolRightX  => _startX + _patrolHalfWidth; // 순찰 우측 경계 X (PatrolBTAction 참조)
+    public float     EdgeCheckDist => _edgeCheckDist;              // 낭떠러지 체크 거리 (PatrolBTAction 참조)
+    public LayerMask GroundLayer   => _groundLayer;                // 지형 레이어 (PatrolBTAction 참조)
 
     /// <summary>현재 선택된 BT 분기명 (BT 노드에서 참조)</summary>
     public string ActiveBranch { get; private set; } = "Patrol";
@@ -77,6 +78,7 @@ public class NFBTEnemyAI : MonoBehaviour
         _rbfn      = new RBFNetwork();          // RBFN 생성
         _fcm       = new FCMClusterer();        // FCM 생성
         DbgCenters = _fcm.GetCenters();         // 초기 기본 센터 저장
+        _startX    = transform.position.x;      // 스폰 위치 X 저장
     }
 
     private void Start()
@@ -167,9 +169,18 @@ public class NFBTEnemyAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;                                    // 감지 범위: 노란색
-        Gizmos.DrawWireSphere(transform.position, _detectionRange);
-        Gizmos.color = Color.red;                                       // 공격 범위: 빨간색
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _detectionRange); // 감지 범위 시각화
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _attackRange); // 공격 범위 시각화
+
+        // 패트롤 범위를 청록색 선으로 표시
+        float baseX = Application.isPlaying ? _startX : transform.position.x;
+        float y     = transform.position.y;
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(new Vector3(baseX - _patrolHalfWidth, y), new Vector3(baseX + _patrolHalfWidth, y)); // 패트롤 구간 수평선
+        Gizmos.DrawWireSphere(new Vector3(baseX - _patrolHalfWidth, y), 0.15f); // 왼쪽 경계 표시
+        Gizmos.DrawWireSphere(new Vector3(baseX + _patrolHalfWidth, y), 0.15f); // 오른쪽 경계 표시
     }
 }

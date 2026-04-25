@@ -52,9 +52,9 @@ public partial class PatrolBTAction : Unity.Behavior.Action
         float x = enemy.transform.position.x; // 현재 x 좌표
 
         // 좌측 경계 도달: 왼쪽 이동 중이고 경계를 벗어남
-        if (_ai.LeftBound  != null && _currentDir < 0f && x <= _ai.LeftBound.position.x)  return true;
+        if (_currentDir < 0f && x <= _ai.PatrolLeftX)  return true;
         // 우측 경계 도달: 오른쪽 이동 중이고 경계를 벗어남
-        if (_ai.RightBound != null && _currentDir > 0f && x >= _ai.RightBound.position.x) return true;
+        if (_currentDir > 0f && x >= _ai.PatrolRightX) return true;
 
         // 낭떠러지 감지: 전방 하단에 땅이 없으면 true
         Vector2 edgeOrigin = (Vector2)enemy.transform.position
