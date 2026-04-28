@@ -57,13 +57,12 @@ public class AIDebugDisplay : MonoBehaviour
         InitStyles();
 
         DrawCombatStatsPanel(); // 전투 통계 패널 (좌상단)
-        DrawFCMCentersPanel();  // FCM 클러스터 센터 패널 (우상단)
 
         if (_target == null) return;
 
         // ── NFBT 메인 패널 (좌하단) ────────────────────────────────────────
-        float x = 10f, y = Screen.height - 160f;
-        float w = 310f, h = 150f;
+        float x = 10f, y = Screen.height - 120f;
+        float w = 310f, h = 110f;
 
         GUI.Box(new Rect(x, y, w, h), GUIContent.none, _boxStyle); // 패널 배경
 
@@ -79,18 +78,16 @@ public class AIDebugDisplay : MonoBehaviour
 
         DrawLine(lx, ly, w - 24f); ly += 10f; // 구분선
 
-        // 클러스터 인덱스 → 분기명 표시
+        // 활성 클러스터만 표시
         string[] branchColors = { "#ff8888", "#88aaff", "#ffdd44" }; // 빨강/파랑/노랑
+        Color[]  barColors    = { new Color(1f, 0.4f, 0.4f), new Color(0.4f, 0.6f, 1f), new Color(1f, 0.85f, 0.2f) };
         int ci = Mathf.Clamp(_target.DbgClusterIndex, 0, 2);          // 클러스터 인덱스 범위 제한
         GUI.Label(new Rect(lx, ly, w, lh),
             $"Cluster    <color=#aaaaaa>[{ci}]</color>  " +
             $"<color={branchColors[ci]}><b>{_target.DbgBranch}</b></color>",
             _labelStyle); ly += 22f;
 
-        // 각 분기 색상 바
-        DrawBranchBar(lx, ref ly, "Chase/Attack",  ci == 0, new Color(1f, 0.4f, 0.4f));  // 추격 분기
-        DrawBranchBar(lx, ref ly, "Evade/Recover", ci == 1, new Color(0.4f, 0.6f, 1f));  // 회피 분기
-        DrawBranchBar(lx, ref ly, "Counter",       ci == 2, new Color(1f, 0.85f, 0.2f)); // 카운터 분기
+        DrawBranchBar(lx, ref ly, _target.DbgBranch, true, barColors[ci]); // 선택된 클러스터 바만 표시
     }
 
     // ── 전투 통계 패널 (좌상단) ────────────────────────────────────────────
@@ -123,57 +120,6 @@ public class AIDebugDisplay : MonoBehaviour
         DrawFeatureRow(lx, ref ly, lh, "AttackFreq ", tracker.AttackFrequency, new Color(1f, 0.4f, 0.4f),  "초당 공격 횟수");
         DrawFeatureRow(lx, ref ly, lh, "HitRate    ", tracker.HitRate,         new Color(0.4f, 1f, 0.5f),  "명중률");
         DrawFeatureRow(lx, ref ly, lh, "DmgPerSec  ", tracker.DamagePerSec,    new Color(0.4f, 0.7f, 1f),  "초당 피해");
-    }
-
-    // ── FCM 클러스터 센터 패널 (우상단) ───────────────────────────────────
-
-    private void DrawFCMCentersPanel()
-    {
-        if (_target == null) return;
-
-        float w  = 300f, h = 130f;
-        float px = Screen.width - w - 10f; // 우측 정렬
-        float py = 10f;
-
-        GUI.Box(new Rect(px, py, w, h), GUIContent.none, _boxStyle);
-
-        float lx = px + 12f;
-        float ly = py + 10f;
-        float lh = 18f;
-
-        GUI.Label(new Rect(lx, ly, w, lh), "■ FCM 클러스터 센터", _headerStyle); ly += 22f;
-
-        var centers = _target.DbgCenters; // FCM 클러스터 중심 취득
-        if (centers == null || centers.Length < 3)
-        {
-            GUI.Label(new Rect(lx, ly, w, lh), "<color=#aaaaaa>갱신 대기 중</color>", _labelStyle);
-        }
-        else
-        {
-            // 3개 클러스터 중심 표시
-            string[] labels = { "C0 방어", "C1 균형", "C2 공격" };   // 클러스터 레이블
-            Color[]  colors = { new Color(1f, 0.4f, 0.4f), new Color(0.9f, 0.9f, 0.4f), new Color(0.4f, 1f, 0.5f) }; // 색상
-
-            for (int i = 0; i < 3; i++)
-            {
-                float[] c = centers[i]; // i번째 클러스터 중심 벡터
-                GUI.Label(new Rect(lx, ly, w, lh),
-                    $"<color=#{ColorToHex(colors[i])}>{labels[i]}</color>  " +
-                    $"AF:<b>{c[0]:F2}</b>  HR:<b>{c[1]:F2}</b>  DP:<b>{c[2]:F2}</b>",
-                    _labelStyle);
-                ly += lh; // 다음 줄로 이동
-            }
-        }
-
-        DrawLine(lx, ly, w - 24f); ly += 8f; // 구분선
-
-        // 마지막 FCM 갱신 시각 표시
-        float lastUpdate = _target.DbgFCMLastTime;
-        string updateStr = lastUpdate <= 0f
-            ? "갱신 대기 중"
-            : $"{lastUpdate:F1}s (다음 갱신 약 {Mathf.Max(0f, lastUpdate + 30f - Time.time):F0}초 후)";
-        GUI.Label(new Rect(lx, ly, w, lh),
-            $"마지막 갱신: <color=#aaaaaa>{updateStr}</color>", _labelStyle);
     }
 
     // ── 피처 행 표시 헬퍼 ────────────────────────────────────────────────────

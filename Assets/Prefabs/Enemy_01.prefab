@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1201942133678898213}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0041014953, y: 0, z: 0, w: 0.9999916}
-  m_LocalPosition: {x: -0.75, y: 0, z: 0}
+  m_LocalPosition: {x: 0.69, y: 0, z: 0}
   m_LocalScale: {x: 1.39, y: 0.68, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -354,8 +354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectionRange: 10
   _attackRange: 1.5
-  _sampleInterval: 5
-  _fcmUpdateInterval: 30
   _patrolHalfWidth: 3
   _edgeCheckDist: 0.5
   _groundLayer:
@@ -373,8 +371,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b201b476c5298a247b5dad3f258fdb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectColor: {r: 1, g: 1, b: 0.6, a: 0.85}
-  _duration: 0.12
+  _slashFrames:
+  - {fileID: 2923668872387116221, guid: 141ba492b1e93e243aaf19a925f19f6e, type: 3}
+  - {fileID: 2265222924984176282, guid: 141ba492b1e93e243aaf19a925f19f6e, type: 3}
+  - {fileID: 1239854378138795276, guid: 141ba492b1e93e243aaf19a925f19f6e, type: 3}
+  - {fileID: 264529087064498891, guid: 141ba492b1e93e243aaf19a925f19f6e, type: 3}
+  _frameRate: 24
+  _offset: {x: 0.8, y: -0.06}
   _size: 0.6
 --- !u!114 &5638392939075457587
 MonoBehaviour:

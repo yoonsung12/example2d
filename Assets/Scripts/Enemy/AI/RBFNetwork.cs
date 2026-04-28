@@ -2,29 +2,28 @@ using UnityEngine;
 
 /// <summary>
 /// Radial Basis Function Network.
-/// FCMClusterer에서 주입된 3D 센터를 기준으로
+/// 오프라인 FCM 분석으로 확정된 3D 센터를 기준으로
 /// 입력 벡터가 어느 클러스터에 가장 가까운지 인덱스로 반환합니다.
-/// 인덱스 0=방어형(Chase/Attack) / 1=균형형(Evade/Recover) / 2=공격형(Counter)
+/// 인덱스 0=소극형(Chase/Attack) / 1=중간형(Evade/Recover) / 2=공격형(Counter)
+/// 센터: 공격성(AttackFreq + HitRate) 기준 오름차순 정렬
 /// </summary>
 public class RBFNetwork
 {
-    private float[][] _centers;      // RBF 센터 (FCMClusterer에서 주입)
-    private readonly float _sigma;   // 가우시안 폭 파라미터
+    private readonly float[][] _centers; // FCM 오프라인 분석으로 확정된 클러스터 센터
+    private readonly float     _sigma;   // 가우시안 폭 파라미터
 
     public RBFNetwork(float sigma = 0.3f)
     {
         _sigma = sigma; // 가우시안 폭 설정
-        // FCM 갱신 전 사용할 기본 센터 (FCMClusterer 기본값과 동일)
+        // 오프라인 FCM 분석 결과 (2026-04-27, FPC=0.9002, 샘플 814개)
+        // 정렬 기준: attackFreq + hitRate 오름차순
         _centers = new float[][]
         {
-            new[] { 0.2f, 0.3f, 0.2f }, // 인덱스 0: 방어형
-            new[] { 0.5f, 0.5f, 0.5f }, // 인덱스 1: 균형형
-            new[] { 0.8f, 0.8f, 0.5f }, // 인덱스 2: 공격형
+            new[] { 0.03819f, 0.0048f,  0.01966f }, // 인덱스 0: 소극형  → Chase/Attack
+            new[] { 0.04337f, 0.3120f,  0.01063f }, // 인덱스 1: 중간형  → Evade/Recover
+            new[] { 0.06425f, 0.9391f,  0.02138f }, // 인덱스 2: 공격형  → Counter
         };
     }
-
-    /// <summary>FCM 클러스터 중심 주입 (FCM 갱신 시 호출)</summary>
-    public void SetCenters(float[][] centers) => _centers = centers;
 
     /// <summary>입력 벡터와 가장 가까운 클러스터 인덱스 반환 (0/1/2)</summary>
     public int Compute(float[] inputs)

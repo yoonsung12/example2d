@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// 플레이어의 실시간 전투 통계를 수집합니다.
-/// FCMClusterer 샘플 공급 및 RBFNetwork 입력 벡터를 제공합니다.
+/// RBFNetwork 입력 벡터를 제공합니다.
 /// 피처: [attack_frequency, hit_rate, damage_taken_per_sec] (모두 정규화 [0,1])
 /// </summary>
 public class CombatStatsTracker : MonoBehaviour
@@ -10,8 +10,8 @@ public class CombatStatsTracker : MonoBehaviour
     public static CombatStatsTracker Instance { get; private set; } // 씬 전반에서 접근 가능한 싱글턴
 
     [Header("정규화 최대값 (게임에 맞게 튜닝)")]
-    [SerializeField] private float _maxAttackFreq   = 5f;  // 초당 최대 공격 횟수 기준
-    [SerializeField] private float _maxDamagePerSec = 50f; // 초당 최대 피해량 기준
+    [SerializeField] private float _maxAttackFreq   = 2.5f; // 초당 최대 공격 횟수 기준 (attackCooldown 0.4s 기준)
+    [SerializeField] private float _maxDamagePerSec = 40f;  // 초당 최대 피해량 기준 (20 damage / 0.5s 무적)
 
     private float _sessionStart; // 세션 시작 시각 (Time.time 기준)
     private int   _attackCount;  // 세션 누적 공격 횟수
@@ -32,7 +32,7 @@ public class CombatStatsTracker : MonoBehaviour
     public float DamagePerSec =>
         Mathf.Clamp01(_totalDamage / (SessionTime * _maxDamagePerSec)); // 총 피해 / (경과시간 × 최대값)
 
-    /// <summary>FCM / RBFN 입력용 3D 피처 벡터 반환</summary>
+    /// <summary>RBFN 입력용 3D 피처 벡터 반환</summary>
     public float[] GetFeatureVector() =>
         new[] { AttackFrequency, HitRate, DamagePerSec }; // 3개 피처를 배열로 반환
 

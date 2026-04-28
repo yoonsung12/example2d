@@ -132,19 +132,6 @@ public class AIScatterPlotUI : MonoBehaviour
         Color bg     = new Color(0.08f, 0.08f, 0.12f, 1f); // 배경색 (어두운 남색)
         for (int i = 0; i < pixels.Length; i++) pixels[i] = bg; // 배경 채우기
 
-        // FCM 클러스터 중심 마커 그리기 (3개)
-        if (_target?.DbgCenters != null && _target.DbgCenters.Length >= 3)
-        {
-            Color markerColor = new Color(0.2f, 1f, 0.7f, 1f); // 청록색 마커
-            for (int i = 0; i < 3; i++)
-            {
-                float[] c  = _target.DbgCenters[i];    // i번째 클러스터 중심
-                int     px = ToPixX(c[0]);              // attackFreq → X 픽셀
-                int     py = ToPixY(c[1]);              // hitRate → Y 픽셀
-                DrawDiamond(pixels, px, py, markerColor, 4); // 마름모 마커
-            }
-        }
-
         // 데이터 포인트 그리기 (오래된 점일수록 어둡게)
         for (int i = 0; i < _points.Count; i++)
         {
