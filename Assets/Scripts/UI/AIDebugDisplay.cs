@@ -94,7 +94,8 @@ public class AIDebugDisplay : MonoBehaviour
 
     private void DrawCombatStatsPanel()
     {
-        var tracker = CombatStatsTracker.Instance; // 전투 통계 트래커 참조
+        // 현재 감시 중인 적의 전용 트래커를 표시 (각 적이 독립 트래커를 소유)
+        var tracker = _target != null ? _target.Tracker : null;
 
         float x = 10f, y = 10f;
         float w = 300f, h = 130f;
@@ -105,12 +106,13 @@ public class AIDebugDisplay : MonoBehaviour
         float ly = y + 10f;
         float lh = 20f;
 
-        GUI.Label(new Rect(lx, ly, w, lh), "■ Combat Stats (Player)", _headerStyle); ly += 24f;
+        string targetName = _target != null ? _target.gameObject.name : "없음";
+        GUI.Label(new Rect(lx, ly, w, lh), $"■ Combat Stats [{targetName}]", _headerStyle); ly += 24f;
 
         if (tracker == null)
         {
             GUI.Label(new Rect(lx, ly, w, lh),
-                "<color=#ff8888>CombatStatsTracker 없음</color>", _labelStyle); // 트래커 없음 경고
+                "<color=#ff8888>감시 대상 없음</color>", _labelStyle); // 트래커 없음 경고
             return;
         }
 

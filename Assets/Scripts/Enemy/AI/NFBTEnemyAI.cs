@@ -3,13 +3,13 @@ using UnityEngine;
 
 /// <summary>
 /// NFBT (Neuro-Fuzzy Behavior Tree) 적 AI 컨트롤러.
-/// CombatStatsTracker → RBFN 파이프라인으로 플레이어 전투 스타일을 분류하고
-/// 클러스터 인덱스 기반으로 ActiveBranch를 결정합니다.
+/// 각 적은 자신의 CombatStatsTracker → RBFN 파이프라인으로 독립적으로 분기를 결정합니다.
 /// 클러스터 0=방어형→Chase/Attack / 1=균형형→Evade/Recover / 2=공격형→Counter
 /// 감지 범위 밖 → Patrol (이동은 PatrolBTAction이 담당)
 /// </summary>
 [RequireComponent(typeof(EnemyBase))]
 [RequireComponent(typeof(BehaviorGraphAgent))]
+[RequireComponent(typeof(CombatStatsTracker))]
 public class NFBTEnemyAI : MonoBehaviour
 {
     [Header("Detection")]
@@ -38,7 +38,11 @@ public class NFBTEnemyAI : MonoBehaviour
     public string ActiveBranch { get; private set; } = "Patrol";
 
     // ── NFBT 계층 ────────────────────────────────────────────────────────────
-    private RBFNetwork _rbfn; // 클러스터 인덱스 분류기
+    private RBFNetwork          _rbfn;    // 클러스터 인덱스 분류기
+    private CombatStatsTracker  _tracker; // 이 적 전용 전투 통계 트래커
+
+    /// <summary>이 적의 전투 통계 트래커 (AIDebugDisplay 참조용)</summary>
+    public CombatStatsTracker Tracker => _tracker;
 
     // ── 분기 이름 매핑 (클러스터 인덱스 → 분기명) ────────────────────────────
     // 인덱스 0: 방어형 플레이어 → 적이 압박 (Chase/Attack)
@@ -63,15 +67,17 @@ public class NFBTEnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        Enemy   = GetComponent<EnemyBase>(); // 적 컴포넌트 캐싱
-        _rbfn   = new RBFNetwork();          // RBFN 생성
-        _startX = transform.position.x;      // 스폰 위치 X 저장
+        Enemy    = GetComponent<EnemyBase>();        // 적 컴포넌트 캐싱
+        _rbfn    = new RBFNetwork();                 // RBFN 생성
+        _tracker = GetComponent<CombatStatsTracker>(); // 이 적 전용 트래커 캐싱
+        _startX  = transform.position.x;             // 스폰 위치 X 저장
     }
 
     private void Start()
     {
         var pc = FindFirstObjectByType<PlayerController>(); // 씬에서 플레이어 컨트롤러 탐색
         if (pc != null) PlayerTransform = pc.transform;     // 플레이어 트랜스폼 캐싱
+        _tracker.Initialize(this);                          // 플레이어 참조 확보 후 트래커 초기화
     }
 
     private void Update()
@@ -87,12 +93,8 @@ public class NFBTEnemyAI : MonoBehaviour
             return;
         }
 
-        var tracker = CombatStatsTracker.Instance; // 전투 통계 트래커 참조
-
-        // 트래커 없으면 기본값 사용 → RBFN이 클러스터 0(Chase/Attack) 선택
-        float[] features = tracker != null
-            ? tracker.GetFeatureVector()
-            : new float[] { 0f, 0f, 0f };
+        // 이 적 전용 트래커에서 피처 벡터 획득 (다른 적과 독립적)
+        float[] features = _tracker.GetFeatureVector();
 
         int clusterIndex = _rbfn.Compute(features);    // RBFN으로 클러스터 분류
         ActiveBranch = BranchNames[clusterIndex];       // 클러스터 인덱스 → 분기명 변환
