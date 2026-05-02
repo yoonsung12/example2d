@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext ctx)
     {
         if (_character.IsDead) return;
+        if (_movement.IsFrozen) return; // 겨울 빙결 시 공격 차단
         _combat.StartAttack();
     }
 
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnFanPressed(InputAction.CallbackContext ctx)
     {
-        if (_character.IsDead) return;
+        if (_character.IsDead || _movement.IsFrozen) return; // 겨울 빙결 시 도구 차단
         _toolHolder?.SetFanHeld(true);
     }
 
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnUmbrellaPressed(InputAction.CallbackContext ctx)
     {
-        if (_character.IsDead) return;
+        if (_character.IsDead || _movement.IsFrozen) return; // 겨울 빙결 시 도구 차단
         _toolHolder?.SetUmbrellaHeld(true);
     }
 
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnLighterPressed(InputAction.CallbackContext ctx)
     {
-        if (_character.IsDead) return;
+        if (_character.IsDead || _movement.IsFrozen) return; // 겨울 빙결 시 도구 차단
         _toolHolder?.SetLighterHeld(true);
     }
 

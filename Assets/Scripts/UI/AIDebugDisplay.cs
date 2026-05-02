@@ -6,7 +6,8 @@ using UnityEngine;
 /// </summary>
 public class AIDebugDisplay : MonoBehaviour
 {
-    [SerializeField] private bool _show = true; // 디버그 UI 표시 여부
+    [SerializeField] private bool _showCombatStats = true; // Combat Stats 패널 표시 여부
+    [SerializeField] private bool _showNFBT        = true; // NFBT AI 패널 표시 여부
 
     private NFBTEnemyAI _target; // 현재 감시 중인 적 AI
 
@@ -53,12 +54,12 @@ public class AIDebugDisplay : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!_show) return;
+        if (!_showCombatStats && !_showNFBT) return; // 둘 다 꺼져 있으면 조기 종료
         InitStyles();
 
-        DrawCombatStatsPanel(); // 전투 통계 패널 (좌상단)
+        if (_showCombatStats) DrawCombatStatsPanel(); // Combat Stats 패널 (좌상단)
 
-        if (_target == null) return;
+        if (!_showNFBT || _target == null) return;
 
         // ── NFBT 메인 패널 (좌하단) ────────────────────────────────────────
         float x = 10f, y = Screen.height - 120f;

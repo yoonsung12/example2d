@@ -24,6 +24,8 @@ public class AIScatterPlotUI : MonoBehaviour
 
     private readonly List<DataPoint> _points = new(MaxPoints + 1); // 데이터 포인트 저장소
 
+    [SerializeField] private bool _show = true; // 인스펙터에서 UI 표시 여부 제어
+
     private NFBTEnemyAI _target;      // 감시 중인 적 AI
     private Texture2D   _plotTex;     // 산점도 텍스처
     private float       _sampleTimer; // 다음 샘플링까지 남은 시간
@@ -65,6 +67,7 @@ public class AIScatterPlotUI : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!_show) return; // _show가 false면 UI 전체 숨김
         InitStyles();
 
         const float panelW = PlotW + 24f;  // 패널 너비 = 텍스처 + 여백

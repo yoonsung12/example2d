@@ -7,8 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class FallingParticle : MonoBehaviour
 {
-    [SerializeField] private SeasonType _season;          // 이 입자가 속하는 계절 (게이지 종류 결정)
-    [SerializeField] private float _gaugeAmount   = 3f;   // 플레이어 충돌 시 추가할 게이지량
+    [SerializeField] private SeasonType _season; // 이 입자가 속하는 계절 (게이지 종류 결정)
     [SerializeField] private float _fallSpeed     = 2f;   // 낙하 속도 (단위/초)
     [SerializeField] private float _swayAmplitude = 0f;   // 좌우 흔들림 폭 (0이면 직선 낙하)
     [SerializeField] private float _swayFrequency = 1f;   // 좌우 흔들림 빈도
@@ -63,11 +62,11 @@ public class FallingParticle : MonoBehaviour
             return;
         }
 
-        // 플레이어에 닿은 경우 — 해당 계절 게이지 추가
+        // 플레이어에 닿은 경우 — 해당 계절 게이지 1칸 추가
         if (other.gameObject.layer == _playerLayer)
         {
-            SeasonalGauge.Instance?.AddGauge(_season, _gaugeAmount);  // 계절 게이지 누적
-            Destroy(gameObject);  // 입자 제거
+            SeasonalGauge.Instance?.AddHit(_season); // 계절 게이지 1칸 누적
+            Destroy(gameObject);                      // 입자 제거
         }
     }
 }

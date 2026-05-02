@@ -1,0 +1,1937 @@
+fileFormatVersion: 2
+guid: fdc087436402fc54fa788ba7d83c2807
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6891416393485222514
+    second: AllTheHearts(16x16)_Spritesheet_0
+  - first:
+      213: -2803059467948343296
+    second: AllTheHearts(16x16)_Spritesheet_1
+  - first:
+      213: -5216450231473069557
+    second: AllTheHearts(16x16)_Spritesheet_2
+  - first:
+      213: -287490802269304467
+    second: AllTheHearts(16x16)_Spritesheet_3
+  - first:
+      213: 4481612348379425495
+    second: AllTheHearts(16x16)_Spritesheet_4
+  - first:
+      213: 1861536412205565218
+    second: AllTheHearts(16x16)_Spritesheet_5
+  - first:
+      213: 2440804297403746021
+    second: AllTheHearts(16x16)_Spritesheet_6
+  - first:
+      213: 6409068741634565180
+    second: AllTheHearts(16x16)_Spritesheet_7
+  - first:
+      213: 921780551241479324
+    second: AllTheHearts(16x16)_Spritesheet_8
+  - first:
+      213: 3379387257730016941
+    second: AllTheHearts(16x16)_Spritesheet_9
+  - first:
+      213: -6277305101542260987
+    second: AllTheHearts(16x16)_Spritesheet_10
+  - first:
+      213: 8721074015951791416
+    second: AllTheHearts(16x16)_Spritesheet_11
+  - first:
+      213: -1419633257793848223
+    second: AllTheHearts(16x16)_Spritesheet_12
+  - first:
+      213: -6204472015446308864
+    second: AllTheHearts(16x16)_Spritesheet_13
+  - first:
+      213: -4263318137020468234
+    second: AllTheHearts(16x16)_Spritesheet_14
+  - first:
+      213: -8964260402796464919
+    second: AllTheHearts(16x16)_Spritesheet_15
+  - first:
+      213: -809940950686315451
+    second: AllTheHearts(16x16)_Spritesheet_16
+  - first:
+      213: -6525009190851745311
+    second: AllTheHearts(16x16)_Spritesheet_17
+  - first:
+      213: 1236971032357859233
+    second: AllTheHearts(16x16)_Spritesheet_18
+  - first:
+      213: 7070296514686683537
+    second: AllTheHearts(16x16)_Spritesheet_19
+  - first:
+      213: -6505880922017958637
+    second: AllTheHearts(16x16)_Spritesheet_20
+  - first:
+      213: -2084139313241677458
+    second: AllTheHearts(16x16)_Spritesheet_21
+  - first:
+      213: 325269121567398631
+    second: AllTheHearts(16x16)_Spritesheet_22
+  - first:
+      213: 2371853373884103973
+    second: AllTheHearts(16x16)_Spritesheet_23
+  - first:
+      213: 4656350239726582198
+    second: AllTheHearts(16x16)_Spritesheet_24
+  - first:
+      213: 3280283462102947308
+    second: AllTheHearts(16x16)_Spritesheet_25
+  - first:
+      213: -6928128146263192377
+    second: AllTheHearts(16x16)_Spritesheet_26
+  - first:
+      213: 1478580517938052703
+    second: AllTheHearts(16x16)_Spritesheet_27
+  - first:
+      213: -2254137966099118566
+    second: AllTheHearts(16x16)_Spritesheet_28
+  - first:
+      213: -7862197096202328389
+    second: AllTheHearts(16x16)_Spritesheet_29
+  - first:
+      213: 5138535337803277231
+    second: AllTheHearts(16x16)_Spritesheet_30
+  - first:
+      213: 3132502660452122786
+    second: AllTheHearts(16x16)_Spritesheet_31
+  - first:
+      213: 7057568346222507225
+    second: AllTheHearts(16x16)_Spritesheet_32
+  - first:
+      213: -3901987927870464599
+    second: AllTheHearts(16x16)_Spritesheet_33
+  - first:
+      213: -4739027987497145425
+    second: AllTheHearts(16x16)_Spritesheet_34
+  - first:
+      213: 8821935150545330906
+    second: AllTheHearts(16x16)_Spritesheet_35
+  - first:
+      213: -4809099565099617590
+    second: AllTheHearts(16x16)_Spritesheet_36
+  - first:
+      213: 4967908009943280598
+    second: AllTheHearts(16x16)_Spritesheet_37
+  - first:
+      213: -9032808894899640460
+    second: AllTheHearts(16x16)_Spritesheet_38
+  - first:
+      213: 4206180083456417781
+    second: AllTheHearts(16x16)_Spritesheet_39
+  - first:
+      213: 3638792035063410182
+    second: AllTheHearts(16x16)_Spritesheet_40
+  - first:
+      213: -4568208252163144771
+    second: AllTheHearts(16x16)_Spritesheet_41
+  - first:
+      213: -3014361255588149398
+    second: AllTheHearts(16x16)_Spritesheet_42
+  - first:
+      213: 2788719886162393672
+    second: AllTheHearts(16x16)_Spritesheet_43
+  - first:
+      213: 2203005489184880142
+    second: AllTheHearts(16x16)_Spritesheet_44
+  - first:
+      213: -6049986780359467555
+    second: AllTheHearts(16x16)_Spritesheet_45
+  - first:
+      213: 8818488024783166694
+    second: AllTheHearts(16x16)_Spritesheet_46
+  - first:
+      213: -7824601514565818684
+    second: AllTheHearts(16x16)_Spritesheet_47
+  - first:
+      213: 4448645122361199718
+    second: AllTheHearts(16x16)_Spritesheet_48
+  - first:
+      213: -4897587981721697216
+    second: AllTheHearts(16x16)_Spritesheet_49
+  - first:
+      213: 8631611610553788208
+    second: AllTheHearts(16x16)_Spritesheet_50
+  - first:
+      213: -3859972379681145749
+    second: AllTheHearts(16x16)_Spritesheet_51
+  - first:
+      213: -799669579622521089
+    second: AllTheHearts(16x16)_Spritesheet_52
+  - first:
+      213: 5945402682761666507
+    second: AllTheHearts(16x16)_Spritesheet_53
+  - first:
+      213: 7130083097920240482
+    second: AllTheHearts(16x16)_Spritesheet_54
+  - first:
+      213: 5033995307537407470
+    second: AllTheHearts(16x16)_Spritesheet_55
+  - first:
+      213: 2525609785796456383
+    second: AllTheHearts(16x16)_Spritesheet_56
+  - first:
+      213: -9152566737191741665
+    second: AllTheHearts(16x16)_Spritesheet_57
+  - first:
+      213: 6140035903946993510
+    second: AllTheHearts(16x16)_Spritesheet_58
+  - first:
+      213: -3768449747486397840
+    second: AllTheHearts(16x16)_Spritesheet_59
+  - first:
+      213: 2514807300471238868
+    second: AllTheHearts(16x16)_Spritesheet_60
+  - first:
+      213: -4223564334765334051
+    second: AllTheHearts(16x16)_Spritesheet_61
+  - first:
+      213: 2454261322448892927
+    second: AllTheHearts(16x16)_Spritesheet_62
+  - first:
+      213: 8593035716760844132
+    second: AllTheHearts(16x16)_Spritesheet_63
+  - first:
+      213: 6266150908135443250
+    second: AllTheHearts(16x16)_Spritesheet_64
+  - first:
+      213: -8929890953979535298
+    second: AllTheHearts(16x16)_Spritesheet_65
+  - first:
+      213: -6437446679884512333
+    second: AllTheHearts(16x16)_Spritesheet_66
+  - first:
+      213: -7842044442332916873
+    second: AllTheHearts(16x16)_Spritesheet_67
+  - first:
+      213: 7863443103583308916
+    second: AllTheHearts(16x16)_Spritesheet_68
+  - first:
+      213: 4615252479507598423
+    second: AllTheHearts(16x16)_Spritesheet_69
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 97
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2728df492ba33af50800000000000000
+      internalID: 6891416393485222514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 000c4a0e3488919d0800000000000000
+      internalID: -2803059467948343296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b022b8407227b97b0800000000000000
+      internalID: -5216450231473069557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d69cb8673a0a20cf0800000000000000
+      internalID: -287490802269304467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dae82eafa2e13e30800000000000000
+      internalID: 4481612348379425495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 99
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 225c7f9018185d910800000000000000
+      internalID: 1861536412205565218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 99
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e64ff8939a7fd120800000000000000
+      internalID: 2440804297403746021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c342036501691f850800000000000000
+      internalID: 6409068741634565180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c94bc9d0782dacc00800000000000000
+      internalID: 921780551241479324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 99
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da6aa7f5ecef5ee20800000000000000
+      internalID: 3379387257730016941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 81
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50f73dbc44882e8a0800000000000000
+      internalID: -6277305101542260987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83522bc7c9a770970800000000000000
+      internalID: 8721074015951791416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16cfdd5d2137c4ce0800000000000000
+      internalID: -1419633257793848223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 008887c139945e9a0800000000000000
+      internalID: -6204472015446308864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f33a6e0eb6a5d4c0800000000000000
+      internalID: -4263318137020468234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4773988ac889380800000000000000
+      internalID: -8964260402796464919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54ccc412ff282c4f0800000000000000
+      internalID: -809940950686315451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e96f1f36b28275a0800000000000000
+      internalID: -6525009190851745311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af6325a99a9a2110800000000000000
+      internalID: 1236971032357859233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 83
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1990596583dbe1260800000000000000
+      internalID: 7070296514686683537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 66
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 315f02465c776b5a0800000000000000
+      internalID: -6505880922017958637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e61adcb3656a313e0800000000000000
+      internalID: -2084139313241677458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ea9d6fea86938400800000000000000
+      internalID: 325269121567398631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52d7ca1b3148ae020800000000000000
+      internalID: 2371853373884103973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 67
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b935b46fddae9040800000000000000
+      internalID: 4656350239726582198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce51c39dd68e58d20800000000000000
+      internalID: 3280283462102947308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ccc89368285adf90800000000000000
+      internalID: -6928128146263192377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5eb28fa529f48410800000000000000
+      internalID: 1478580517938052703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a16c0f77671b7b0e0800000000000000
+      internalID: -2254137966099118566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 67
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb6a0ce856dd3e290800000000000000
+      internalID: -7862197096202328389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 49
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa36e832aaebf4740800000000000000
+      internalID: 5138535337803277231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a0073ea292e87b20800000000000000
+      internalID: 3132502660452122786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d432aea40581f160800000000000000
+      internalID: 7057568346222507225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 49
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ad1b6937aa59d9c0800000000000000
+      internalID: -3901987927870464599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fab299067279b3eb0800000000000000
+      internalID: -4739027987497145425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad269cf574fcd6a70800000000000000
+      internalID: 8821935150545330906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 49
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac270ccdc65a24db0800000000000000
+      internalID: -4809099565099617590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 51
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dbac71930e81f440800000000000000
+      internalID: 4967908009943280598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 477a48ffa2405a280800000000000000
+      internalID: -9032808894899640460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 51
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ff1eb7208a5f5a30800000000000000
+      internalID: 4206180083456417781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 36
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60ea975a3169f7230800000000000000
+      internalID: 3638792035063410182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db3cecd4cc67a90c0800000000000000
+      internalID: -4568208252163144771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a67c7f7a866da26d0800000000000000
+      internalID: -3014361255588149398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 33
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84af6c016f583b620800000000000000
+      internalID: 2788719886162393672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e06b91502d5a29e10800000000000000
+      internalID: 2203005489184880142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddd5dd4d3112a0ca0800000000000000
+      internalID: -6049986780359467555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ec9c3dd220916a70800000000000000
+      internalID: 8818488024783166694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c62257016e696390800000000000000
+      internalID: -7824601514565818684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66c0d1a3b23ccbd30800000000000000
+      internalID: 4448645122361199718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 35
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 044814ddda5480cb0800000000000000
+      internalID: -4897587981721697216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_50
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 19
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 037223e0705a9c770800000000000000
+      internalID: 8631611610553788208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_51
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6c394a529f9e6ac0800000000000000
+      internalID: -3859972379681145749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_52
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff6e9e011c007e4f0800000000000000
+      internalID: -799669579622521089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_53
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 19
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcfd9a86d30528250800000000000000
+      internalID: 5945402682761666507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_54
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 19
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b7d8efcc423f260800000000000000
+      internalID: 7130083097920240482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_55
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eed10ca9f085cd540800000000000000
+      internalID: 5033995307537407470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_56
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbfe5ab08b4cc0320800000000000000
+      internalID: 2525609785796456383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_57
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 19
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1751ae7b0d8bf080800000000000000
+      internalID: -9152566737191741665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66fa7e29f1ac53550800000000000000
+      internalID: 6140035903946993510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_59
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 19
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07aa927bbe6c3bbc0800000000000000
+      internalID: -3768449747486397840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_60
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 2
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d0b52f6ae366e220800000000000000
+      internalID: 2514807300471238868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_61
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd1ad4c6d92e265c0800000000000000
+      internalID: -4223564334765334051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_62
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff3fb866ba94f0220800000000000000
+      internalID: 2454261322448892927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_63
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46736cfd478904770800000000000000
+      internalID: 8593035716760844132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_64
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23b876c2d07d5f650800000000000000
+      internalID: 6266150908135443250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_65
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e30631d6d77a21480800000000000000
+      internalID: -8929890953979535298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_66
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b347f80a5899a6a0800000000000000
+      internalID: -6437446679884512333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_67
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7739bede0267b2390800000000000000
+      internalID: -7842044442332916873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_68
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47c049427df802d60800000000000000
+      internalID: 7863443103583308916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AllTheHearts(16x16)_Spritesheet_69
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 3
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75c8acd6dabac0040800000000000000
+      internalID: 4615252479507598423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      AllTheHearts(16x16)_Spritesheet_0: 6891416393485222514
+      AllTheHearts(16x16)_Spritesheet_1: -2803059467948343296
+      AllTheHearts(16x16)_Spritesheet_10: -6277305101542260987
+      AllTheHearts(16x16)_Spritesheet_11: 8721074015951791416
+      AllTheHearts(16x16)_Spritesheet_12: -1419633257793848223
+      AllTheHearts(16x16)_Spritesheet_13: -6204472015446308864
+      AllTheHearts(16x16)_Spritesheet_14: -4263318137020468234
+      AllTheHearts(16x16)_Spritesheet_15: -8964260402796464919
+      AllTheHearts(16x16)_Spritesheet_16: -809940950686315451
+      AllTheHearts(16x16)_Spritesheet_17: -6525009190851745311
+      AllTheHearts(16x16)_Spritesheet_18: 1236971032357859233
+      AllTheHearts(16x16)_Spritesheet_19: 7070296514686683537
+      AllTheHearts(16x16)_Spritesheet_2: -5216450231473069557
+      AllTheHearts(16x16)_Spritesheet_20: -6505880922017958637
+      AllTheHearts(16x16)_Spritesheet_21: -2084139313241677458
+      AllTheHearts(16x16)_Spritesheet_22: 325269121567398631
+      AllTheHearts(16x16)_Spritesheet_23: 2371853373884103973
+      AllTheHearts(16x16)_Spritesheet_24: 4656350239726582198
+      AllTheHearts(16x16)_Spritesheet_25: 3280283462102947308
+      AllTheHearts(16x16)_Spritesheet_26: -6928128146263192377
+      AllTheHearts(16x16)_Spritesheet_27: 1478580517938052703
+      AllTheHearts(16x16)_Spritesheet_28: -2254137966099118566
+      AllTheHearts(16x16)_Spritesheet_29: -7862197096202328389
+      AllTheHearts(16x16)_Spritesheet_3: -287490802269304467
+      AllTheHearts(16x16)_Spritesheet_30: 5138535337803277231
+      AllTheHearts(16x16)_Spritesheet_31: 3132502660452122786
+      AllTheHearts(16x16)_Spritesheet_32: 7057568346222507225
+      AllTheHearts(16x16)_Spritesheet_33: -3901987927870464599
+      AllTheHearts(16x16)_Spritesheet_34: -4739027987497145425
+      AllTheHearts(16x16)_Spritesheet_35: 8821935150545330906
+      AllTheHearts(16x16)_Spritesheet_36: -4809099565099617590
+      AllTheHearts(16x16)_Spritesheet_37: 4967908009943280598
+      AllTheHearts(16x16)_Spritesheet_38: -9032808894899640460
+      AllTheHearts(16x16)_Spritesheet_39: 4206180083456417781
+      AllTheHearts(16x16)_Spritesheet_4: 4481612348379425495
+      AllTheHearts(16x16)_Spritesheet_40: 3638792035063410182
+      AllTheHearts(16x16)_Spritesheet_41: -4568208252163144771
+      AllTheHearts(16x16)_Spritesheet_42: -3014361255588149398
+      AllTheHearts(16x16)_Spritesheet_43: 2788719886162393672
+      AllTheHearts(16x16)_Spritesheet_44: 2203005489184880142
+      AllTheHearts(16x16)_Spritesheet_45: -6049986780359467555
+      AllTheHearts(16x16)_Spritesheet_46: 8818488024783166694
+      AllTheHearts(16x16)_Spritesheet_47: -7824601514565818684
+      AllTheHearts(16x16)_Spritesheet_48: 4448645122361199718
+      AllTheHearts(16x16)_Spritesheet_49: -4897587981721697216
+      AllTheHearts(16x16)_Spritesheet_5: 1861536412205565218
+      AllTheHearts(16x16)_Spritesheet_50: 8631611610553788208
+      AllTheHearts(16x16)_Spritesheet_51: -3859972379681145749
+      AllTheHearts(16x16)_Spritesheet_52: -799669579622521089
+      AllTheHearts(16x16)_Spritesheet_53: 5945402682761666507
+      AllTheHearts(16x16)_Spritesheet_54: 7130083097920240482
+      AllTheHearts(16x16)_Spritesheet_55: 5033995307537407470
+      AllTheHearts(16x16)_Spritesheet_56: 2525609785796456383
+      AllTheHearts(16x16)_Spritesheet_57: -9152566737191741665
+      AllTheHearts(16x16)_Spritesheet_58: 6140035903946993510
+      AllTheHearts(16x16)_Spritesheet_59: -3768449747486397840
+      AllTheHearts(16x16)_Spritesheet_6: 2440804297403746021
+      AllTheHearts(16x16)_Spritesheet_60: 2514807300471238868
+      AllTheHearts(16x16)_Spritesheet_61: -4223564334765334051
+      AllTheHearts(16x16)_Spritesheet_62: 2454261322448892927
+      AllTheHearts(16x16)_Spritesheet_63: 8593035716760844132
+      AllTheHearts(16x16)_Spritesheet_64: 6266150908135443250
+      AllTheHearts(16x16)_Spritesheet_65: -8929890953979535298
+      AllTheHearts(16x16)_Spritesheet_66: -6437446679884512333
+      AllTheHearts(16x16)_Spritesheet_67: -7842044442332916873
+      AllTheHearts(16x16)_Spritesheet_68: 7863443103583308916
+      AllTheHearts(16x16)_Spritesheet_69: 4615252479507598423
+      AllTheHearts(16x16)_Spritesheet_7: 6409068741634565180
+      AllTheHearts(16x16)_Spritesheet_8: 921780551241479324
+      AllTheHearts(16x16)_Spritesheet_9: 3379387257730016941
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

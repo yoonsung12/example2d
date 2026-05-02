@@ -9,11 +9,12 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class GinkgoNut : MonoBehaviour
 {
-    [SerializeField] private float _gaugeAmountPerSec = 10f;  // 냄새 범위 내 초당 가을 게이지 증가량
-    [SerializeField] private float _smellRadius       = 1.5f; // 터진 후 냄새 범위 반경
-    [SerializeField] private float _smellDuration     = 3f;   // 냄새가 유지되는 시간 (초)
-    [SerializeField] private float _swayAmplitude     = 0.15f;// 낙하 중 좌우 흔들림 폭
-    [SerializeField] private float _swayFrequency     = 1f;   // 좌우 흔들림 빈도
+    // 냄새 범위 진입 1회 = 가을 게이지 1칸 (AddHit 방식으로 변경)
+    [SerializeField] private float             _smellRadius       = 1.5f; // 터진 후 냄새 범위 반경
+    [SerializeField] private float             _smellDuration     = 3f;   // 냄새가 유지되는 시간 (초)
+    [SerializeField] private float             _swayAmplitude     = 0.15f;// 낙하 중 좌우 흔들림 폭
+    [SerializeField] private float             _swayFrequency     = 1f;   // 좌우 흔들림 빈도
+    [SerializeField] private SmellWindBehavior _smellWindBehavior;         // 연결 시 바람으로 냄새 소멸 가능 (선택)
 
     private Rigidbody2D      _rb;        // 물리 연산 컴포넌트 — 중력·속도 제어
     private CircleCollider2D _col;       // 충돌 콜라이더 — 낙하 충돌 및 냄새 범위로 전환
@@ -53,9 +54,13 @@ public class GinkgoNut : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 낙하 중에 우산 방어막에 닿으면 터지지 않고 사라짐
+        // 낙하 중 우산 방어막에 닿으면 사라짐
         if (!_hasBurst && other.gameObject.layer == _umbrellaLayer)
             Destroy(gameObject);
+
+        // 터진 후 냄새 범위에 플레이어가 진입하면 가을 게이지 1칸 추가 (진입 시 1회만)
+        if (_hasBurst && other.gameObject.layer == _playerLayer)
+            SeasonalGauge.Instance?.AddHit(SeasonType.Autumn);
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -63,13 +68,6 @@ public class GinkgoNut : MonoBehaviour
         // 바닥에 닿으면 터짐 (이미 터졌으면 무시)
         if (!_hasBurst && col.gameObject.layer == _groundLayer)
             Burst();
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        // 냄새 범위(트리거 전환 후)에 플레이어가 머물면 가을 게이지 지속 추가
-        if (_hasBurst && other.gameObject.layer == _playerLayer)
-            SeasonalGauge.Instance?.AddGauge(SeasonType.Autumn, _gaugeAmountPerSec * Time.deltaTime);
     }
 
     private void Burst()
@@ -84,6 +82,11 @@ public class GinkgoNut : MonoBehaviour
         _col.isTrigger = true;         // 콜라이더를 트리거로 전환 — 냄새 범위로 사용
         _col.radius    = _smellRadius; // 냄새 범위 반경으로 확장
 
-        Destroy(gameObject, _smellDuration);  // smellDuration 초 후 냄새와 함께 제거
+        // SmellWindBehavior가 연결된 경우 — 자연 소멸 타이머와 바람 소멸을 위임
+        // 연결되지 않은 경우 — 기존 방식대로 시간 후 제거
+        if (_smellWindBehavior != null)
+            _smellWindBehavior.Activate(_smellDuration);
+        else
+            Destroy(gameObject, _smellDuration);  // smellDuration 초 후 냄새와 함께 제거
     }
 }
